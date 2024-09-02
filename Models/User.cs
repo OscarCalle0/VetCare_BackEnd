@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace VetCare_BackEnd.Models.users
+{
+    [Table("users")]
+    public class User
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [MaxLength(100, ErrorMessage = "The input is too long")]
+        [MinLength(3, ErrorMessage = "The input is too short")]
+        public required string Name { get; set; }
+
+
+        [MaxLength(100, ErrorMessage = "The input is too long")]
+        [MinLength(3, ErrorMessage = "The input is too short")]
+        public required string LastName { get; set; }
+
+        [DataType(DataType.Date)]
+        public required DateOnly BirthDate { get; set; }
+
+        [MaxLength(15, ErrorMessage = "The input is too long")]
+        public required string DocumentNumber { get; set; }
+
+        [MaxLength(200, ErrorMessage = "The input is too long")]
+        public required string Password { get; set; }
+
+
+        [MaxLength(15, ErrorMessage = "The input is too long")]
+        public required string PhoneNumber { get; set; }
+
+        [MaxLength(100, ErrorMessage = "The input is too long")]
+        public required string Address { get; set; }
+
+        // Foreign Keys
+
+        [ForeignKey("DocumentType")]
+        public int DocumentType_id { get; set; }
+
+        [ForeignKey("Role")]
+        public int Role_id { get; set; }
+
+
+        // Navigation properties
+        public Role? Role { get; set; }
+
+        public DocumentType? DocumentType { get; set; }
+
+
+    }
+}
