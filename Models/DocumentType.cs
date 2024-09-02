@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace VetCare_BackEnd.Models.users
+namespace VetCare_BackEnd.Models
 {
     [Table("documentTypes")]
     public class DocumentType
