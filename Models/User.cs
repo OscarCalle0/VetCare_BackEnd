@@ -54,10 +54,10 @@ namespace VetCare_BackEnd.Models
 
         // Navigation properties
         [ForeignKey("Role_id")]
-        public Role? Role { get; set; }
+        public required Role Role { get; set; }
 
         [ForeignKey("DocumentType_id")]
-        public DocumentType? DocumentType { get; set; }
+        public required DocumentType DocumentType { get; set; }
 
 
     }
