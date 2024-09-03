@@ -39,11 +39,13 @@ namespace VetCare_BackEnd.Models
 
         [Required]
         [MaxLength(15, ErrorMessage = "The input is too long")]
+        [Phone(ErrorMessage = "The phone format is not valid, you can use this example format if you want => ### ### ## ##")]
         public required string PhoneNumber { get; set; }
 
         [Required]
         [MaxLength(100, ErrorMessage = "The input is too long")]
-        public required string Address { get; set; }
+        [EmailAddress(ErrorMessage = "The email format is not valid")]
+        public required string Email { get; set; }
 
         // Foreign Keys
 
