@@ -24,9 +24,9 @@ namespace VetCare_BackEnd.Models
         [MinLength(3, ErrorMessage = "The input is too short")]
         public required string LastName { get; set; }
 
-        [Required]
+        
         [DataType(DataType.Date)]
-        public required DateOnly BirthDate { get; set; }
+        public DateOnly? BirthDate { get; set; }
 
         [Required]
         [MaxLength(15, ErrorMessage = "The input is too long")]
