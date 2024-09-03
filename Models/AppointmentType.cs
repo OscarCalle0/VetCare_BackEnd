@@ -13,5 +13,9 @@ namespace VetCare_BackEnd.Models
         [Key]
         public int Id { get; set; }
         
+        [Required]
+        [MaxLength(100, ErrorMessage = "The input is too long")]
+        public required string Name { get; set; }
+        
     }
 }
