@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VetCare_BackEnd.Models
 {
-    [Table("Pets")]
+    [Table("pets")]
     public class Pet
     {
         [Key]
