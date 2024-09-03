@@ -19,6 +19,7 @@ namespace VetCare_BackEnd.Models
         public required string Name { get; set; }
 
         // Navigation properties
+        [NotMapped]
         public ICollection<User>? Users { get; set; }
     }
 }

@@ -48,17 +48,15 @@ namespace VetCare_BackEnd.Models
         public required string Email { get; set; }
 
         // Foreign Keys
-
-        [ForeignKey("DocumentType")]
         public int DocumentType_id { get; set; }
-
-        [ForeignKey("Role")]
         public int Role_id { get; set; }
 
 
         // Navigation properties
+        [ForeignKey("Role_id")]
         public Role? Role { get; set; }
 
+        [ForeignKey("DocumentType_id")]
         public DocumentType? DocumentType { get; set; }
 
 
