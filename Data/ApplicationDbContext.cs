@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using VetCare_BackEnd.Models;
 
 namespace VetCare_BackEnd.Data;
 
