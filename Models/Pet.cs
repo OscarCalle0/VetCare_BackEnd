@@ -35,10 +35,10 @@ namespace VetCare_BackEnd.Models
         public required string Sex { get; set; }
 
         // Foreign keys
-        public int UserId { get; set; }
+        public int user_id { get; set; }
 
         // Navigation properties
-        [ForeignKey("UserId")]
+        [ForeignKey("user_id")]
         public required User User { get; set; }
     }
 }
