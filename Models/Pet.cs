@@ -11,6 +11,7 @@ namespace VetCare_BackEnd.Models
     public class Pet
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
 
@@ -39,6 +40,6 @@ namespace VetCare_BackEnd.Models
 
         // Navigation properties
         [ForeignKey("user_id")]
-        public required User User { get; set; }
+        public User? User { get; set; }
     }
 }
