@@ -22,6 +22,30 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// app.MapGet("/", () => "Hello World!");
+// // Endpoint para verificar la conexión con la base de datos
+// app.MapGet("/check-db", async (ApplicationDbContext dbContext) =>
+// {
+//     try
+//     {
+//         // Intenta realizar una consulta simple para verificar la conexión
+//         var canConnect = await dbContext.Database.CanConnectAsync();
+//         if (canConnect)
+//         {
+//             return Results.Ok("La conexión a la base de datos es exitosa.");
+//         }
+//         else
+//         {
+//             return Results.Problem("La conexión a la base de datos falló.", statusCode: StatusCodes.Status500InternalServerError);
+//         }
+//     }
+//     catch (Exception ex)
+//     {
+//         // Manejar excepciones de conexión
+//         return Results.Problem($"La conexión a la base de datos falló: {ex.Message}", statusCode: StatusCodes.Status500InternalServerError);
+//     }
+// });
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
