@@ -11,6 +11,7 @@ namespace VetCare_BackEnd.Models
     public class Role
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]

@@ -11,6 +11,7 @@ namespace VetCare_BackEnd.Models
     public class Pet
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
 
@@ -28,6 +29,8 @@ namespace VetCare_BackEnd.Models
 
         [Required]
         [DataType(DataType.Date)]
+        [RegularExpression(@"^\d{4}-\d{2}-\d{2}$", ErrorMessage = "The input format should be like: yyyy-MM-dd.")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "The Date should have exactly 10 characters.")]  //regular expresion for the date yyyy-MM-dd
         public DateOnly BirthDate { get; set; }
 
         [Required]
@@ -35,10 +38,10 @@ namespace VetCare_BackEnd.Models
         public required string Sex { get; set; }
 
         // Foreign keys
-        public int UserId { get; set; }
+        public int user_id { get; set; }
 
         // Navigation properties
-        [ForeignKey("UserId")]
-        public required User User { get; set; }
+        [ForeignKey("user_id")]
+        public User? User { get; set; }
     }
 }
