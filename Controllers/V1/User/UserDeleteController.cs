@@ -19,15 +19,15 @@ namespace VetCare_BackEnd.Controllers.V1
             ConnectionDb= variableConnection;
         }
 
-        [HttpDelete]
+        // [HttpDelete]
 
-        public async Task<ActionResult> DeletingById (int id)
-        {
-            var Usersearch = await ConnectionDb.Users.FindAsync(id);
-            ConnectionDb.Users.Remove(Usersearch);
-            ConnectionDb.SaveChanges();
-            return NoContent();
-        }
+        // public async Task<ActionResult> DeletingById (int id)
+        // {
+        //     var Usersearch = await ConnectionDb.Users.FindAsync(id);
+        //     ConnectionDb.Users.Remove(Usersearch);
+        //     ConnectionDb.SaveChanges();
+        //     return NoContent();
+        // }
 
 
 

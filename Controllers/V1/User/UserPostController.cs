@@ -14,59 +14,65 @@ namespace VetCare_BackEnd.Controllers.V1
     [Route("api/[controller]")]
     public class UserPostController : ControllerBase
     {
-        private readonly ApplicationDbContext  _userService;
+        private readonly ApplicationDbContext _userService;
 
         public UserPostController(ApplicationDbContext userservice)
         {
-            _userService =userservice;
+            _userService = userservice;
         }
 
-        [HttpPost()]
-        public  async Task<IActionResult> CreateUser ([FromBody] UserDTO UserDTO)
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateUser([FromBody] User newUser)
         {
-            if( UserDTO==null)
-            {
-                return BadRequest();
-            }
-
-            else if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var UserKeyFRole= await _userService.Roles.FindAsync(UserDTO.Role_id);
-            if (UserKeyFRole==null)
-            {
-                return NotFound();
-            }
-
-            var UserKeyDocumentType= await _userService.DocumentTypes.FindAsync(UserDTO.DocumentType_id);
-            if (UserKeyDocumentType==null)
-            {
-                return NotFound();
-            }
-
-            var NewUser= new User{
-                Name = UserDTO.Name,
-                LastName= UserDTO.LastName,
-                BirthDate= UserDTO.BirthDate,
-                DocumentNumber= UserDTO.DocumentNumber,
-                Password=UserDTO.Password,
-                PhoneNumber=UserDTO.PhoneNumber,
-                Email=UserDTO.Email,
-                DocumentType_id = UserDTO.DocumentType_id,
-                Role_id = UserDTO.Role_id,
-                Role = UserKeyFRole,
-                DocumentType= UserKeyDocumentType
-            };
-
-
-            _userService.Users.Add(NewUser);
-
+            _userService.Users.Add(newUser);
             await _userService.SaveChangesAsync();
-
-            return Created();
+            return Ok("usuario creado");
         }
-        
+        //     if( UserDTO==null)
+        //     {
+        //         return BadRequest();
+        //     }
+
+        //     else if (!ModelState.IsValid)
+        //     {
+        //         return BadRequest();
+        //     }
+
+        //     var UserKeyFRole= await _userService.Roles.FindAsync(UserDTO.Role_id);
+        //     if (UserKeyFRole==null)
+        //     {
+        //         return NotFound();
+        //     }
+
+        //     var UserKeyDocumentType= await _userService.DocumentTypes.FindAsync(UserDTO.DocumentType_id);
+        //     if (UserKeyDocumentType==null)
+        //     {
+        //         return NotFound();
+        //     }
+
+        //     var NewUser= new User{
+        //         Name = UserDTO.Name,
+        //         LastName= UserDTO.LastName,
+        //         BirthDate= UserDTO.BirthDate,
+        //         DocumentNumber= UserDTO.DocumentNumber,
+        //         Password=UserDTO.Password,
+        //         PhoneNumber=UserDTO.PhoneNumber,
+        //         Email=UserDTO.Email,
+        //         DocumentType_id = UserDTO.DocumentType_id,
+        //         Role_id = UserDTO.Role_id,
+        //         Role = UserKeyFRole,
+        //         DocumentType= UserKeyDocumentType
+        //     };
+
+
+        //     _userService.Users.Add(NewUser);
+
+        //     await _userService.SaveChangesAsync();
+
+        //     return CreatedAtAction(nameof(CreateUser), new { id = NewUser.Id }, NewUser);
+
+        //     // return Created();
+        // }
+
     }
 }

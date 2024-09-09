@@ -11,7 +11,7 @@ using VetCare_BackEnd.Models;
 namespace VetCare_BackEnd.Controllers.V1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class UserGetController : ControllerBase
     {
         private readonly ApplicationDbContext ConnectionDb;

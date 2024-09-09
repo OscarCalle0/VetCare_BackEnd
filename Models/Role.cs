@@ -11,7 +11,7 @@ namespace VetCare_BackEnd.Models
     public class Role
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        // [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -19,9 +19,9 @@ namespace VetCare_BackEnd.Models
         [MinLength(3, ErrorMessage = "The input is too short")]
         public required string Name { get; set; }
 
-        // Navigation properties
-        [NotMapped]
-        public ICollection<User>? Users { get; set; }
+        // // Navigation properties
+        // [NotMapped]
+        // public ICollection<User>? Users { get; set; }
 
     }
 }

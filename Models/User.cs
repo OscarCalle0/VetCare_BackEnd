@@ -11,7 +11,6 @@ namespace VetCare_BackEnd.Models
     public class User
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -27,8 +26,8 @@ namespace VetCare_BackEnd.Models
 
         
         [DataType(DataType.Date)]
-        [RegularExpression(@"^\d{4}-\d{2}-\d{2}$", ErrorMessage = "The input format should be like: yyyy-MM-dd.")]
-        [StringLength(10, MinimumLength = 10, ErrorMessage = "The Date should have exactly 10 characters.")]  //regular expresion for the date yyyy-MM-dd
+        //[RegularExpression(@"^\d{4}-\d{2}-\d{2}$", ErrorMessage = "The input format should be like: yyyy-MM-dd.")]
+       // [StringLength(10, MinimumLength = 10, ErrorMessage = "The Date should have exactly 10 characters.")]  //regular expresion for the date yyyy-MM-dd
         public DateOnly? BirthDate { get; set; }
 
         [Required]
@@ -51,16 +50,16 @@ namespace VetCare_BackEnd.Models
         public required string Email { get; set; }
 
         // Foreign Keys
-        public int DocumentType_id { get; set; }
-        public int Role_id { get; set; }
+        public int DocumentTypeId { get; set; }
+        public int RoleId { get; set; }
 
 
         // Navigation properties
         [ForeignKey("Role_id")]
-        public required Role Role { get; set; }
+        public Role? Role { get; set; }
 
         [ForeignKey("DocumentType_id")]
-        public required DocumentType DocumentType { get; set; }
+        public  DocumentType? DocumentType { get; set; }
 
 
     }
