@@ -9,7 +9,7 @@ using VetCare_BackEnd.Data;
 namespace VetCare_BackEnd.Controllers.V1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/users")]
     public class UserDeleteController : ControllerBase
     {
         private readonly ApplicationDbContext ConnectionDb;

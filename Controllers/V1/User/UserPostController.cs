@@ -11,23 +11,23 @@ using ZstdSharp.Unsafe;
 namespace VetCare_BackEnd.Controllers.V1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/users")]
     public class UserPostController : ControllerBase
     {
-        private readonly ApplicationDbContext _userService;
+        // private readonly ApplicationDbContext _userService;
 
-        public UserPostController(ApplicationDbContext userservice)
-        {
-            _userService = userservice;
-        }
+        // public UserPostController(ApplicationDbContext userservice)
+        // {
+        //     _userService = userservice;
+        // }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateUser([FromBody] User newUser)
-        {
-            _userService.Users.Add(newUser);
-            await _userService.SaveChangesAsync();
-            return Ok("usuario creado");
-        }
+        // [HttpPost("create")]
+        // public async Task<IActionResult> CreateUser([FromBody] User newUser)
+        // {
+        //     _userService.Users.Add(newUser);
+        //     await _userService.SaveChangesAsync();
+        //     return Ok("usuario creado");
+        // }
         //     if( UserDTO==null)
         //     {
         //         return BadRequest();

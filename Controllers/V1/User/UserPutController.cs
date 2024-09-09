@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace VetCare_BackEnd.Controllers.V1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/users")]
     public class UserPutController : ControllerBase
     {
         
