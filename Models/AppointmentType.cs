@@ -11,7 +11,6 @@ namespace VetCare_BackEnd.Models
     public class AppointmentType
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         
         [Required]
