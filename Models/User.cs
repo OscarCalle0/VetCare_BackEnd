@@ -26,7 +26,6 @@ namespace VetCare_BackEnd.Models
 
         
         [DataType(DataType.Date)]
-        
         public DateOnly? BirthDate { get; set; }
 
         [Required]
@@ -48,18 +47,17 @@ namespace VetCare_BackEnd.Models
         [EmailAddress(ErrorMessage = "The email format is not valid")]
         public required string Email { get; set; }
 
-        // Foreign Keys
-        [NotMapped]
         public required int DocumentTypeId { get; set; }
-        [NotMapped]
+      
         public required int RoleId { get; set; }
-
 
         // Navigation properties
         [ForeignKey("Role_id")]
+        [NotMapped]
         public Role? Role { get; set; }
 
         [ForeignKey("DocumentType_id")]
+        [NotMapped]
         public  DocumentType? DocumentType { get; set; }
 
 

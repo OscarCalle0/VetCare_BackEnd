@@ -12,8 +12,8 @@ using VetCare_BackEnd.Data;
 namespace VetCare_BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240909171047_createUserTable")]
-    partial class createUserTable
+    [Migration("20240910115840_ResetDataBase")]
+    partial class ResetDataBase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

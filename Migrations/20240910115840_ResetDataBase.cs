@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VetCare_BackEnd.Migrations
 {
     /// <inheritdoc />
-    public partial class createUserTable : Migration
+    public partial class ResetDataBase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
