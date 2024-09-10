@@ -25,6 +25,12 @@ public class ApplicationDbContext:DbContext
         DocumentTypeSeeder.Seed(modelBuilder);
         RoleSeeder.Seed(modelBuilder);
         
+        var dataUsers = UserSeeder.GenerateUser(5);
+
+        modelBuilder.Entity<User>(user =>
+        {
+            user.HasData(dataUsers);
+        });
     }
 
 }
