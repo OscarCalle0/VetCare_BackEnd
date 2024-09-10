@@ -13,52 +13,52 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
     [Route("api/[controller]")]
     public class PetPostController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public PetPostController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        // private readonly ApplicationDbContext _context;
+        // public PetPostController(ApplicationDbContext context)
+        // {
+        //     _context = context;
+        // }
 
-        [HttpPost("CreatePet")]
-        public async Task<IActionResult> CreatePet([FromBody] PetDTO _petDTO)
-        {
-            if (_petDTO == null)
-            {
-                return BadRequest("Pet data is null");
-            }
+        // [HttpPost("CreatePet")]
+        // public async Task<IActionResult> CreatePet([FromBody] PetDTO _petDTO)
+        // {
+        //     if (_petDTO == null)
+        //     {
+        //         return BadRequest("Pet data is null");
+        //     }
 
-            else if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //     else if (!ModelState.IsValid)
+        //     {
+        //         return BadRequest(ModelState);
+        //     }
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == _petDTO.user_id);
+        //     var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == _petDTO.user_id);
 
-            if (user == null)
-            {
-                return NotFound("An user by that Id doesnt exist");
-            }
+        //     if (user == null)
+        //     {
+        //         return NotFound("An user by that Id doesnt exist");
+        //     }
 
-            if (_petDTO.BirthDate.Year > DateTime.Now.Year)
-            {
-                return BadRequest("We have not yet reached the target date");
-            }
+        //     if (_petDTO.BirthDate.Year > DateTime.Now.Year)
+        //     {
+        //         return BadRequest("We have not yet reached the target date");
+        //     }
 
-            var pet = new Pet
-            {
-                Name = _petDTO.Name.ToLower(),
-                Breed = _petDTO.Breed.ToLower(),
-                Weight = _petDTO.Weight.ToUpper(),
-                BirthDate = _petDTO.BirthDate,
-                Sex = _petDTO.Sex.ToLower(),
-                user_id = _petDTO.user_id,
-                User = user
-            };
+        //     var pet = new Pet
+        //     {
+        //         Name = _petDTO.Name.ToLower(),
+        //         Breed = _petDTO.Breed.ToLower(),
+        //         Weight = _petDTO.Weight.ToUpper(),
+        //         BirthDate = _petDTO.BirthDate,
+        //         Sex = _petDTO.Sex.ToLower(),
+        //         user_id = _petDTO.user_id,
+        //         User = user
+        //     };
 
-            _context.Pets.Add(pet);
-            await _context.SaveChangesAsync();
+        //     _context.Pets.Add(pet);
+        //     await _context.SaveChangesAsync();
 
-            return Created();
-        }
+        //     return Created();
+        // }
     }
 }
