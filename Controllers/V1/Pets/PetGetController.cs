@@ -8,17 +8,9 @@ using VetCare_BackEnd.Data;
 
 namespace VetCare_BackEnd.Controllers.V1.Pets
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class PetGetController : ControllerBase
+    
+    public partial class PetController
     {
-        private readonly ApplicationDbContext _context;
-
-        public PetGetController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet("allPets")]
         public async Task<IActionResult> AllPets()
         {
