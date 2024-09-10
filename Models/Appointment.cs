@@ -11,7 +11,6 @@ namespace VetCare_BackEnd.Models
     public class Appointment
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -29,11 +28,15 @@ namespace VetCare_BackEnd.Models
         public string? Description { get; set; }
 
         // Foreign Keys
-        public int Pet_id { get; set; }
-        public int AppointmentType_id { get; set; }
+        public int PetId { get; set; }
+        public int AppointmentTypeId { get; set; }
 
         // Navigation properties
+        [NotMapped]
+        [ForeignKey("PetId")]
         public required Pet Pet { get; set; }
+        [NotMapped]
+        [ForeignKey("AppointmentTypeId")]
         public required AppointmentType AppointmentType { get; set; }
     }
 }
