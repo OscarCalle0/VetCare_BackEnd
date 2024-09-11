@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using VetCare_BackEnd.Data;
 using VetCare_BackEnd.Models;
+using VetCare_BackEnd.Services;
 
 namespace VetCare_BackEnd.Controllers.V1.Pets
 {
@@ -35,11 +36,11 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
             // ------- Verificar
             
             int userId;
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userIdClaim = await _jwtHelper.GetIdFromJWT();
 
             if (userIdClaim == null || !int.TryParse(userIdClaim, out userId))
             {
-                return NotFound("Unable to retrieve user ID from tokent");
+                return NotFound("Unable to retrieve user ID from token");
             }
             // ----------------
 

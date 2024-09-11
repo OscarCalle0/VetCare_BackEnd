@@ -2,6 +2,7 @@ using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using VetCare_BackEnd.Data;
 using VetCare_BackEnd.Models;
+using VetCare_BackEnd.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +17,16 @@ var conectionDB = $"server={dbHost};port={dbPort};database={dbDatabaseName};uid=
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(conectionDB, ServerVersion.Parse("8.0.20-mysql")));
 
-// builder.Services.AddControllers()
-//     .AddJsonOptions(options =>
-//     {
-//         options.JsonSerializerOptions.Converters.Add(new DateOnlyConverter());
-//     });
+
+
+// For connect to the session storage
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<JwtHelper>();
+
 
 builder.Services.AddControllers();
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
