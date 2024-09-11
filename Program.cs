@@ -16,6 +16,19 @@ var conectionDB = $"server={dbHost};port={dbPort};database={dbDatabaseName};uid=
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(conectionDB, ServerVersion.Parse("8.0.20-mysql")));
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.WithOrigins("http://192.168.89.167:6969", "http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+        });
+});
+
 // builder.Services.AddControllers()
 //     .AddJsonOptions(options =>
 //     {
@@ -44,7 +57,9 @@ if (app.Environment.IsDevelopment())
 //     await next();
 // });
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthorization();
 

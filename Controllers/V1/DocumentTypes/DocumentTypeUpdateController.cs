@@ -16,12 +16,14 @@ namespace VetCare_BackEnd.Controllers.V1.DocumentTypes
 
         [HttpPut("{id}")]
 
-        public async Task<IActionResult> Update(int id, string newDocumentTypeName)
+        public async Task<IActionResult> Update([FromRoute]int id, [FromBody] DocumentType newDocumentTypeName)
         {
-            if (string.IsNullOrEmpty(newDocumentTypeName))
-            {
-                return BadRequest("Document Type can't be empty");
-            }
+            
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
 
             var DocumentToUpdate = await _context.DocumentTypes.FindAsync(id);
 
@@ -30,7 +32,7 @@ namespace VetCare_BackEnd.Controllers.V1.DocumentTypes
                 return NotFound("it was not found");
             }
 
-            DocumentToUpdate.Name = newDocumentTypeName;
+            
             await _context.SaveChangesAsync();
             return Ok("The Document Type Name has been updated successfully");
 

@@ -13,7 +13,7 @@ namespace VetCare_BackEnd.Controllers.V1.DocumentTypes
     {
 
 
-        [HttpGet("")]
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var result = await _context.DocumentTypes.ToListAsync();

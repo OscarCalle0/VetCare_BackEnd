@@ -14,7 +14,7 @@ public partial class DocumentTypeController
 
 
     [HttpPost()]
-    public async Task<IActionResult> Create(DocumentType newDocumentType)
+    public async Task<IActionResult> Create([FromBody] DocumentType newDocumentType)
     {
         if (!ModelState.IsValid)
         {
