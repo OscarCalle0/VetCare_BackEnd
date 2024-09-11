@@ -1,24 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using VetCare_BackEnd.Models;
 
 namespace VetCare_BackEnd.Controllers.V1.Roles;
 public partial class RolesController
 {
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update([FromRoute] int id, string newRoleName)
+    [HttpPatch("UpdateName/{id}")]
+    public async Task<IActionResult> Update([FromRoute] int id,[FromBody] Role newRole)
     {
-        if(string.IsNullOrEmpty(newRoleName))
+        if(!ModelState.IsValid)
         {
-            return BadRequest("Role name cannot be empty");
+            return BadRequest(ModelState);
         }
 
         var role = await _context.Roles.FindAsync(id);
+
         if(role == null)
         {
             return NotFound();
         }
 
-        role.Name = newRoleName;
+        role.Name = newRole.Name;
         await _context.SaveChangesAsync();
         return Ok("Role updated successfully");
     }
