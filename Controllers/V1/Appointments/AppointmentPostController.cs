@@ -4,7 +4,7 @@ using VetCare_BackEnd.Models;
 namespace VetCare_BackEnd.Controllers.V1.Appointments;
 public partial class AppointmentController
 {
-    [HttpPost]
+    [HttpPost("create")]
     public async Task<IActionResult> Create(Appointment newAppointment)
     {
         if (!ModelState.IsValid)

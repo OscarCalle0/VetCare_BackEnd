@@ -5,7 +5,7 @@ using VetCare_BackEnd.Models;
 namespace VetCare_BackEnd.Controllers.V1.Roles;
 public partial class RolesController
 {
-    [HttpPatch("UpdateName/{id}")]
+    [HttpPatch("updateName/{id}")]
     public async Task<IActionResult> Update([FromRoute] int id,[FromBody] Role newRole)
     {
         if(!ModelState.IsValid)

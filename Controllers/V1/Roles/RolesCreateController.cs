@@ -5,7 +5,7 @@ using VetCare_BackEnd.Models;
 namespace VetCare_BackEnd.Controllers.V1.Roles;
 public partial class RolesController
 {
-    [HttpPost()]
+    [HttpPost("create")]
     public async Task<IActionResult> Create(Role newRole)
     {
         if (!ModelState.IsValid)

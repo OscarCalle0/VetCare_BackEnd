@@ -8,7 +8,7 @@ using VetCare_BackEnd.Models;
 namespace VetCare_BackEnd.Controllers.V1.Appointments;
 public partial class AppointmentController
 {
-    [HttpPut("{id}")]
+    [HttpPut("updateAppointment/{id}")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Appointment updatedAppointment)
     {
         if (!ModelState.IsValid)

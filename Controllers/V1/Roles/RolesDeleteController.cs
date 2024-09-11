@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace VetCare_BackEnd.Controllers.V1.Roles;
 public partial class RolesController
 {
-    [HttpDelete("{id}")]
+    [HttpDelete("delete/{id}")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         var role = await _context.Roles.FindAsync(id);

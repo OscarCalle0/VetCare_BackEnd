@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace VetCare_BackEnd.Controllers.V1.Appointments;
 public partial class AppointmentController
 {
-    [HttpDelete("{id}")]
+    [HttpDelete("delete/{id}")]
     public async Task<IActionResult> Delete( [FromRoute] int id)
     {
         var appointment = await _context.Appointments.FindAsync(id);
