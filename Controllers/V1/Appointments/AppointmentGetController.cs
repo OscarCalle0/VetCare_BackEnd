@@ -49,11 +49,13 @@ public partial class AppointmentController
         {
             return BadRequest("Keyword is required");
         }
+
         var appointments = await _context.Appointments.ToListAsync();
 
         var result = appointments.Where(r => 
-            r.Description.Contains(keyword, System.StringComparison.OrdinalIgnoreCase)).
+            !string.IsNullOrEmpty(r.Description) && r.Description.Contains(keyword, System.StringComparison.OrdinalIgnoreCase)).
         ToList();
+
         if(result.Count() == 0)
         {
             return NotFound("No roles found with that keyword");

@@ -7,7 +7,7 @@ using VetCare_BackEnd.Data;
 
 namespace VetCare_BackEnd.Controllers.V1.Appointments;
 [ApiController]
-[Route("api/V1/appointments")]
+[Route("api/v1/appointments")]
 public partial class AppointmentController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
