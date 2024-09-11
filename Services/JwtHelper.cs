@@ -33,35 +33,6 @@ namespace VetCare_BackEnd.Services
             }
 
             return null;
-
-
-
-            // var token = await Task.FromResult(_httpContextAccessor.HttpContext.Session.GetString("jwt"));
-
-            // if (string.IsNullOrEmpty(token))
-            // {
-            //     Console.WriteLine("Token not found");
-            //     return null;
-            // }
-
-            // var handler = new JwtSecurityTokenHandler();
-            // var jsonToken = await Task.Run(() => handler.ReadToken(token) as JwtSecurityToken);
-
-            // if (jsonToken == null)
-            // {
-            //     Console.WriteLine("The token is not a valid JWT");
-            //     return null;
-            // }
-
-            // var userIdClaim = await Task.Run(() => jsonToken.Claims.FirstOrDefault(claim => claim.Type == "id"));
-
-            // if (userIdClaim == null)
-            // {
-            //     Console.WriteLine("The token doesnt have the claim 'id'");
-            //     return null;
-            // }
-
-            // return userIdClaim.Value;
         }
     }
 }
