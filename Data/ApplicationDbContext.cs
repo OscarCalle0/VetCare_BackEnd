@@ -26,6 +26,7 @@ public class ApplicationDbContext:DbContext
         RoleSeeder.Seed(modelBuilder);
         PetSeeder.Seed(modelBuilder);
         AppointmentSeeder.Seed(modelBuilder);
+        AppointmentTypeSeeder.Seed(modelBuilder);
         
         var dataUsers = UserSeeder.GenerateUser(5);
 
