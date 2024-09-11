@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetCare_BackEnd.Data;
 
@@ -11,9 +12,11 @@ using VetCare_BackEnd.Data;
 namespace VetCare_BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240910155601_InsertDataInUsersTable")]
+    partial class InsertDataInUsersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,67 +255,67 @@ namespace VetCare_BackEnd.Migrations
                         new
                         {
                             Id = 1,
-                            BirthDate = new DateOnly(2023, 10, 6),
-                            DocumentNumber = "p63r9ekxnn",
-                            DocumentTypeId = 1,
-                            Email = "Eleonore.Mosciski@yahoo.com",
-                            LastName = "Cummings",
-                            Name = "Myles",
-                            Password = "j4Rikt4gLK",
-                            PhoneNumber = "404 229 49 47",
-                            RoleId = 4
+                            BirthDate = new DateOnly(2024, 3, 27),
+                            DocumentNumber = "z6yb0q7lch",
+                            DocumentTypeId = 136,
+                            Email = "Ettie.Green7@hotmail.com",
+                            LastName = "Morar",
+                            Name = "Ora",
+                            Password = "_GecPSCeV5",
+                            PhoneNumber = "514 514 88 21",
+                            RoleId = 48
                         },
                         new
                         {
                             Id = 2,
-                            BirthDate = new DateOnly(2024, 2, 5),
-                            DocumentNumber = "9ed5076f7u",
-                            DocumentTypeId = 5,
-                            Email = "Savanah_Marquardt@yahoo.com",
-                            LastName = "Lemke",
-                            Name = "Wendy",
-                            Password = "Y8dO6RM4zl",
-                            PhoneNumber = "634 059 53 74",
-                            RoleId = 1
+                            BirthDate = new DateOnly(2024, 5, 26),
+                            DocumentNumber = "hr7hb8yvh1",
+                            DocumentTypeId = 82,
+                            Email = "Vesta10@gmail.com",
+                            LastName = "Schiller",
+                            Name = "Alfredo",
+                            Password = "1jnmtHKbcV",
+                            PhoneNumber = "897 871 28 15",
+                            RoleId = 121
                         },
                         new
                         {
                             Id = 3,
-                            BirthDate = new DateOnly(2024, 6, 7),
-                            DocumentNumber = "74si1odva8",
-                            DocumentTypeId = 3,
-                            Email = "Claude.Lesch66@gmail.com",
-                            LastName = "Koss",
-                            Name = "Ben",
-                            Password = "5tS6Q0_loz",
-                            PhoneNumber = "105 526 93 41",
-                            RoleId = 2
+                            BirthDate = new DateOnly(2023, 12, 19),
+                            DocumentNumber = "fo7ul3jc01",
+                            DocumentTypeId = 197,
+                            Email = "Obie_Strosin46@gmail.com",
+                            LastName = "McLaughlin",
+                            Name = "Shawna",
+                            Password = "jWepjNWwIf",
+                            PhoneNumber = "533 787 37 66",
+                            RoleId = 254
                         },
                         new
                         {
                             Id = 4,
-                            BirthDate = new DateOnly(2024, 2, 13),
-                            DocumentNumber = "ccgfu51fl6",
-                            DocumentTypeId = 1,
-                            Email = "Felicita_Wunsch69@hotmail.com",
-                            LastName = "Kihn",
-                            Name = "Afton",
-                            Password = "ZhxFy0U9Uk",
-                            PhoneNumber = "578 385 94 00",
-                            RoleId = 2
+                            BirthDate = new DateOnly(2024, 1, 12),
+                            DocumentNumber = "rj0me3egmt",
+                            DocumentTypeId = 89,
+                            Email = "Tara9@hotmail.com",
+                            LastName = "Mayer",
+                            Name = "Jack",
+                            Password = "mHvwLQJrLU",
+                            PhoneNumber = "721 237 82 10",
+                            RoleId = 229
                         },
                         new
                         {
                             Id = 5,
-                            BirthDate = new DateOnly(2023, 12, 14),
-                            DocumentNumber = "c8qfsvfzmf",
-                            DocumentTypeId = 5,
-                            Email = "Rachel99@hotmail.com",
-                            LastName = "Kuhn",
-                            Name = "Imelda",
-                            Password = "BJOLyCy2Ec",
-                            PhoneNumber = "787 950 50 06",
-                            RoleId = 3
+                            BirthDate = new DateOnly(2024, 5, 4),
+                            DocumentNumber = "zy4ah7s136",
+                            DocumentTypeId = 182,
+                            Email = "Loraine_Fay91@gmail.com",
+                            LastName = "Stamm",
+                            Name = "Jewell",
+                            Password = "t7FsnAvREY",
+                            PhoneNumber = "090 595 80 81",
+                            RoleId = 71
                         });
                 });
 #pragma warning restore 612, 618

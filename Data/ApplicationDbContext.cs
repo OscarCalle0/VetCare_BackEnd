@@ -13,12 +13,9 @@ public class ApplicationDbContext:DbContext
     public DbSet<DocumentType> DocumentTypes { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<User> Users { get; set; }
-
-    // public DbSet<Appointment> Appointments { get; set; }
-
-    // public DbSet<Pet> Pets { get; set; }
-
-    // public DbSet<AppointmentType> AppointmentTypes { get; set; }
+    public DbSet<Pet> Pets { get; set; }
+    public DbSet<AppointmentType> AppointmentTypes { get; set; }
+    public DbSet<Appointment> Appointments { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -28,6 +25,12 @@ public class ApplicationDbContext:DbContext
         DocumentTypeSeeder.Seed(modelBuilder);
         RoleSeeder.Seed(modelBuilder);
         
+        var dataUsers = UserSeeder.GenerateUser(5);
+
+        modelBuilder.Entity<User>(user =>
+        {
+            user.HasData(dataUsers);
+        });
     }
 
 }
