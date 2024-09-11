@@ -15,7 +15,7 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
     public partial class PetController
     {
         [HttpPost("CreatePet")]
-        public async Task<IActionResult> CreatePet([FromBody] PetDTO _petDTO)
+        public async Task<IActionResult> CreatePet([FromForm] PetDTO _petDTO)
         {
             if (_petDTO == null)
             {
@@ -31,10 +31,10 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
             {
                 return BadRequest("We have not yet reached the target date");
             }
-            
+
 
             // ------- Verificar
-            
+
             int userId;
             var userIdClaim = await _jwtHelper.GetIdFromJWT();
 
@@ -50,6 +50,31 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
                 return NotFound("User not found");
             }
 
+            if (_petDTO.Image == null)
+            {
+                return BadRequest("The Image field dont have data");
+            }
+
+            // Ensure the directory exists
+            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+
+            if (!Directory.Exists(uploadPath))
+            {
+                Directory.CreateDirectory(uploadPath);
+            }
+
+            // Generate a unique filename
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(_petDTO.Image.FileName);
+            var filePath = Path.Combine(uploadPath, fileName);
+
+            // Save the file
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await _petDTO.Image.CopyToAsync(stream);
+            }
+    
+
+
             var pet = new Pet
             {
                 Name = _petDTO.Name.ToLower(),
@@ -58,6 +83,7 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
                 BirthDate = _petDTO.BirthDate,
                 Sex = _petDTO.Sex.ToLower(),
                 user_id = userId,
+                ImagePath = $"/images/{fileName}",
                 User = user
             };
 
