@@ -19,10 +19,28 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.WithOrigins("http://192.168.89.167:6969", "http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+        });
+});
+
+// builder.Services.AddControllers()
+//     .AddJsonOptions(options =>
+//     {
+//         options.JsonSerializerOptions.Converters.Add(new DateOnlyConverter());
+//     });
+
+
 // For connect to the session storage
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<JwtHelper>();
-
+builder.Services.AddScoped<JwtHelper>()
 
 builder.Services.AddControllers();
 
@@ -48,7 +66,9 @@ if (app.Environment.IsDevelopment())
 //     await next();
 // });
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthorization();
 
