@@ -65,7 +65,7 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
         [HttpGet("petByUserId/{id}")]
         public async Task<IActionResult> PetByUserId([FromRoute]int id)
         {
-            var result = await _context.Pets.FirstOrDefaultAsync(p => p.user_id == id);
+            var result = await _context.Pets.Where(p => p.user_id == id).ToListAsync();
 
             if (result == null)
             {
