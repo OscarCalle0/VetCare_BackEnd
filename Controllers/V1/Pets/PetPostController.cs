@@ -33,18 +33,18 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
             }
 
 
-            // ------- Verificar
+            // // ------- Verificar
 
-            int userId;
-            var userIdClaim = await _jwtHelper.GetIdFromJWT();
+            // int userId;
+            // var userIdClaim = await _jwtHelper.GetIdFromJWT();
 
-            if (userIdClaim == null || !int.TryParse(userIdClaim, out userId))
-            {
-                return NotFound("Unable to retrieve user ID from token");
-            }
-            // ----------------
+            // if (userIdClaim == null || !int.TryParse(userIdClaim, out userId))
+            // {
+            //     return NotFound("Unable to retrieve user ID from token");
+            // }
+            // // ----------------
 
-            var user = await _context.Users.FindAsync(userId);
+            var user = await _context.Users.FindAsync(1);
             if (user == null)
             {
                 return NotFound("User not found");
@@ -55,24 +55,12 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
                 return BadRequest("The Image field dont have data");
             }
 
-            // Ensure the directory exists
-            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+            var imagePath = _imageHelper.CreateImage(_petDTO.Image);
 
-            if (!Directory.Exists(uploadPath))
+            if (imagePath == string.Empty)
             {
-                Directory.CreateDirectory(uploadPath);
-            }
-
-            // Generate a unique filename
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(_petDTO.Image.FileName);
-            var filePath = Path.Combine(uploadPath, fileName);
-
-            // Save the file
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await _petDTO.Image.CopyToAsync(stream);
-            }
-    
+                return BadRequest("The image cannot be saved");
+            }    
 
 
             var pet = new Pet
@@ -82,8 +70,8 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
                 Weight = _petDTO.Weight.ToUpper(),
                 BirthDate = _petDTO.BirthDate,
                 Sex = _petDTO.Sex.ToLower(),
-                user_id = userId,
-                ImagePath = $"/images/{fileName}",
+                user_id = 1,
+                ImagePath = imagePath,
                 User = user
             };
 
