@@ -28,15 +28,16 @@ namespace VetCare_BackEnd.Models
         public string? Description { get; set; }
 
         // Foreign Keys
-        public int PetId { get; set; }
-        public int AppointmentTypeId { get; set; }
+        public required int PetId { get; set; }
+        public required int AppointmentTypeId { get; set; }
 
         // Navigation properties
         [NotMapped]
         [ForeignKey("PetId")]
-        public required Pet Pet { get; set; }
+        public Pet? Pet { get; set; }
+
         [NotMapped]
         [ForeignKey("AppointmentTypeId")]
-        public required AppointmentType AppointmentType { get; set; }
+        public AppointmentType? AppointmentType { get; set; }
     }
 }

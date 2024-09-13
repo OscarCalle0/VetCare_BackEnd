@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetCare_BackEnd.Data;
 
@@ -11,9 +12,11 @@ using VetCare_BackEnd.Data;
 namespace VetCare_BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240911152127_creationoffalsedataforthepetstable")]
+    partial class creationoffalsedataforthepetstable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,84 +55,6 @@ namespace VetCare_BackEnd.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("appointments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AppointmentTypeId = 2,
-                            Available = false,
-                            Description = "cardiology",
-                            EndDate = new DateOnly(2023, 8, 23),
-                            PetId = 1,
-                            StartDate = new DateOnly(2023, 8, 22)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AppointmentTypeId = 1,
-                            Available = true,
-                            EndDate = new DateOnly(2023, 7, 23),
-                            PetId = 2,
-                            StartDate = new DateOnly(2023, 7, 22)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AppointmentTypeId = 2,
-                            Available = false,
-                            Description = "cardiology",
-                            EndDate = new DateOnly(2023, 6, 23),
-                            PetId = 3,
-                            StartDate = new DateOnly(2023, 6, 22)
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AppointmentTypeId = 1,
-                            Available = true,
-                            EndDate = new DateOnly(2023, 5, 23),
-                            PetId = 4,
-                            StartDate = new DateOnly(2023, 5, 22)
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AppointmentTypeId = 2,
-                            Available = false,
-                            Description = "cardiology",
-                            EndDate = new DateOnly(2023, 4, 23),
-                            PetId = 5,
-                            StartDate = new DateOnly(2023, 4, 22)
-                        },
-                        new
-                        {
-                            Id = 6,
-                            AppointmentTypeId = 1,
-                            Available = true,
-                            EndDate = new DateOnly(2023, 3, 23),
-                            PetId = 6,
-                            StartDate = new DateOnly(2023, 3, 22)
-                        },
-                        new
-                        {
-                            Id = 7,
-                            AppointmentTypeId = 2,
-                            Available = false,
-                            Description = "cardiology",
-                            EndDate = new DateOnly(2023, 2, 23),
-                            PetId = 6,
-                            StartDate = new DateOnly(2023, 2, 22)
-                        },
-                        new
-                        {
-                            Id = 8,
-                            AppointmentTypeId = 1,
-                            Available = true,
-                            EndDate = new DateOnly(2023, 1, 23),
-                            PetId = 7,
-                            StartDate = new DateOnly(2023, 1, 22)
-                        });
                 });
 
             modelBuilder.Entity("VetCare_BackEnd.Models.AppointmentType", b =>
@@ -148,23 +73,6 @@ namespace VetCare_BackEnd.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("appointmentTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "consult"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "exam"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "appointment"
-                        });
                 });
 
             modelBuilder.Entity("VetCare_BackEnd.Models.DocumentType", b =>
@@ -419,66 +327,66 @@ namespace VetCare_BackEnd.Migrations
                         new
                         {
                             Id = 1,
-                            BirthDate = new DateOnly(2023, 12, 11),
-                            DocumentNumber = "obnlia8eyh",
-                            DocumentTypeId = 2,
-                            Email = "Myrl51@yahoo.com",
-                            LastName = "Botsford",
-                            Name = "Garnett",
-                            Password = "AzqlRdErLu",
-                            PhoneNumber = "711 597 49 32",
+                            BirthDate = new DateOnly(2024, 5, 20),
+                            DocumentNumber = "8mrdd5ljey",
+                            DocumentTypeId = 1,
+                            Email = "Bret67@hotmail.com",
+                            LastName = "Zieme",
+                            Name = "Efrain",
+                            Password = "GhSOMGIJ14",
+                            PhoneNumber = "612 105 05 95",
                             RoleId = 5
                         },
                         new
                         {
                             Id = 2,
-                            BirthDate = new DateOnly(2024, 2, 25),
-                            DocumentNumber = "v518o2o2ja",
-                            DocumentTypeId = 1,
-                            Email = "Gianni_Beahan56@hotmail.com",
-                            LastName = "Crist",
-                            Name = "Tracy",
-                            Password = "6xzTe1OvO8",
-                            PhoneNumber = "684 785 47 69",
+                            BirthDate = new DateOnly(2023, 11, 22),
+                            DocumentNumber = "4xulqozcyc",
+                            DocumentTypeId = 2,
+                            Email = "Kaylin.Ruecker@gmail.com",
+                            LastName = "Gutmann",
+                            Name = "Torrey",
+                            Password = "0ILDYJFbnj",
+                            PhoneNumber = "278 426 51 98",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 3,
-                            BirthDate = new DateOnly(2023, 12, 24),
-                            DocumentNumber = "uuhaq4wn9c",
-                            DocumentTypeId = 5,
-                            Email = "Ellie_West@gmail.com",
-                            LastName = "MacGyver",
-                            Name = "Carlee",
-                            Password = "GXoC57lCI8",
-                            PhoneNumber = "522 747 54 13",
-                            RoleId = 3
+                            BirthDate = new DateOnly(2024, 1, 5),
+                            DocumentNumber = "8wflnq5bgr",
+                            DocumentTypeId = 1,
+                            Email = "Monte_Kutch62@gmail.com",
+                            LastName = "Kuhic",
+                            Name = "Darrin",
+                            Password = "TpZRUBPuRR",
+                            PhoneNumber = "532 886 98 79",
+                            RoleId = 4
                         },
                         new
                         {
                             Id = 4,
-                            BirthDate = new DateOnly(2023, 11, 8),
-                            DocumentNumber = "5t8zuoicgt",
-                            DocumentTypeId = 1,
-                            Email = "Omer.Will30@yahoo.com",
-                            LastName = "Littel",
-                            Name = "Mose",
-                            Password = "na_5zmuOVv",
-                            PhoneNumber = "979 031 20 76",
-                            RoleId = 3
+                            BirthDate = new DateOnly(2023, 11, 15),
+                            DocumentNumber = "8gh5sfevl8",
+                            DocumentTypeId = 2,
+                            Email = "Lilliana.Toy68@hotmail.com",
+                            LastName = "Gerhold",
+                            Name = "Trisha",
+                            Password = "o2PtSGxbCE",
+                            PhoneNumber = "222 389 76 51",
+                            RoleId = 5
                         },
                         new
                         {
                             Id = 5,
-                            BirthDate = new DateOnly(2023, 11, 22),
-                            DocumentNumber = "32mth3ofqk",
+                            BirthDate = new DateOnly(2023, 12, 1),
+                            DocumentNumber = "93s02ixwws",
                             DocumentTypeId = 2,
-                            Email = "Jasen_Mayer@hotmail.com",
-                            LastName = "Gleason",
-                            Name = "Albertha",
-                            Password = "7ru59G7Wh1",
-                            PhoneNumber = "680 393 16 91",
+                            Email = "Aiden.Larkin13@gmail.com",
+                            LastName = "Cruickshank",
+                            Name = "Giovanny",
+                            Password = "ChD9X2fewt",
+                            PhoneNumber = "189 200 28 18",
                             RoleId = 4
                         });
                 });
