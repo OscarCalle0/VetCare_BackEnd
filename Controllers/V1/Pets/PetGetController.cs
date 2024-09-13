@@ -61,5 +61,18 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
 
             return Ok(result);
         }
+
+        [HttpGet("petByUserId/{id}")]
+        public async Task<IActionResult> PetByUserId([FromRoute]int id)
+        {
+            var result = await _context.Pets.Where(p => p.user_id == id).ToListAsync();
+
+            if (result == null)
+            {
+                return NotFound("Id Not Found");
+            }
+
+            return Ok(result);
+        }
     }
 }

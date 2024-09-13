@@ -15,7 +15,7 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
     public partial class PetController
     {
         [HttpPost("CreatePet")]
-        public async Task<IActionResult> CreatePet([FromBody] PetDTO _petDTO)
+        public async Task<IActionResult> CreatePet([FromForm] PetDTO _petDTO)
         {
             if (_petDTO == null)
             {
@@ -27,14 +27,14 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
                 return BadRequest(ModelState);
             }
 
-            if (_petDTO.BirthDate.Year > DateTime.Now.Year)
+            else if (_petDTO.BirthDate.Year > DateTime.Now.Year)
             {
                 return BadRequest("We have not yet reached the target date");
             }
-            
+
 
             // ------- Verificar
-            
+
             int userId;
             var userIdClaim = await _jwtHelper.GetIdFromJWT();
 
@@ -50,6 +50,19 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
                 return NotFound("User not found");
             }
 
+            if (_petDTO.Image == null)
+            {
+                return BadRequest("The Image field dont have data");
+            }
+
+            var imagePath = _imageHelper.CreateImage(_petDTO.Image);
+
+            if (imagePath == string.Empty)
+            {
+                return BadRequest("The image cannot be saved");
+            }    
+
+
             var pet = new Pet
             {
                 Name = _petDTO.Name.ToLower(),
@@ -58,6 +71,7 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
                 BirthDate = _petDTO.BirthDate,
                 Sex = _petDTO.Sex.ToLower(),
                 user_id = userId,
+                ImagePath = imagePath,
                 User = user
             };
 

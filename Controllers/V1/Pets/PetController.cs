@@ -14,11 +14,13 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
     {
         private readonly ApplicationDbContext _context;
         private readonly JwtHelper _jwtHelper;
+        private readonly ImageHelper _imageHelper;
 
-        public PetController(ApplicationDbContext context, JwtHelper jwtHelper)
+        public PetController(ApplicationDbContext context, JwtHelper jwtHelper, ImageHelper imageHelper)
         {
             _context = context;
             _jwtHelper = jwtHelper;
+            _imageHelper = imageHelper;
         }
     }
 }

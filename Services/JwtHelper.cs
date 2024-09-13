@@ -27,7 +27,7 @@ namespace VetCare_BackEnd.Services
                 {
                     // Decodificar el token y extraer la información que necesitas
                     var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
-                    var userId = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+                    var userId = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == "NameIdentifier")?.Value;
                     return userId;
                 }
             }
