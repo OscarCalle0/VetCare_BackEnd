@@ -8,41 +8,71 @@ using VetCare_BackEnd.Data;
 
 namespace VetCare_BackEnd.Controllers.V1.Pets
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class PetGetController : ControllerBase
+    
+    public partial class PetController
     {
-        // private readonly ApplicationDbContext _context;
+        [HttpGet("allPaginatedPets")]
+        public async Task<IActionResult> AllPets([FromQuery] int page, [FromQuery] int quantity)
+        {
+            if (page < 1)
+            {
+                return BadRequest("the page number must be greated than or equal to 1");
+            }
+            if (quantity < 1)
+            {
+                return BadRequest("the page size must be greated than or equal to 1.");
+            }
 
-        // public PetGetController(ApplicationDbContext context)
-        // {
-        //     _context = context;
-        // }
+            var result = await _context.Pets
+            .Skip((page - 1)*quantity)
+            .Take(quantity)
+            .ToListAsync();
 
-        // [HttpGet("allPets")]
-        // public async Task<IActionResult> AllPets()
-        // {
-        //     var result = await _context.Pets.ToListAsync();
+            if (result.Count == 0)
+            {
+                return NotFound("The table 'Pets' is empty");
+            }
 
-        //     if (result.Count == 0)
-        //     {
-        //         return NotFound("The table 'Pets' is empty");
-        //     }
+            return Ok(result);
+        }
 
-        //     return Ok(result);
-        // }
+        [HttpGet("allPets")]
+        public async Task<IActionResult> AllPets()
+        {
+            var result = await _context.Pets.ToListAsync();
 
-        // [HttpGet("petById/{id}")]
-        // public async Task<IActionResult> PetById(int id)
-        // {
-        //     var result = await _context.Pets.FirstOrDefaultAsync(p => p.Id == id);
+            if (result.Count == 0)
+            {
+                return NotFound("The table 'Pets' is empty");
+            }
 
-        //     if (result == null)
-        //     {
-        //         return NotFound("Id Not Found");
-        //     }
+            return Ok(result);
+        }
 
-        //     return Ok(result);
-        // }
+        [HttpGet("petById/{id}")]
+        public async Task<IActionResult> PetById([FromRoute] int id)
+        {
+            var result = await _context.Pets.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (result == null)
+            {
+                return NotFound("Id Not Found");
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("petByUserId/{id}")]
+        public async Task<IActionResult> PetByUserId([FromRoute]int id)
+        {
+            var result = await _context.Pets.Where(p => p.user_id == id).ToListAsync();
+
+            if (result == null)
+            {
+                return NotFound("Id Not Found");
+            }
+
+            return Ok(result);
+        }
     }
 }
