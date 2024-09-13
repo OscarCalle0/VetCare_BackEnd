@@ -35,6 +35,7 @@ namespace VetCare_BackEnd.Models
         [Required]
         [MaxLength(50, ErrorMessage = "The input is too long")]
         public required string Sex { get; set; }
+        public string? ImagePath { get; set; }
 
         // Foreign keys
         public int user_id { get; set; }
