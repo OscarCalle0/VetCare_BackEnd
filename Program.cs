@@ -43,6 +43,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<JwtHelper>();
 builder.Services.AddScoped<ImageHelper>();
 
+
 builder.Services.AddControllers();
 
 
