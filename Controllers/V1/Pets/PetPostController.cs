@@ -27,24 +27,24 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
                 return BadRequest(ModelState);
             }
 
-            if (_petDTO.BirthDate.Year > DateTime.Now.Year)
+            else if (_petDTO.BirthDate.Year > DateTime.Now.Year)
             {
                 return BadRequest("We have not yet reached the target date");
             }
 
 
-            // // ------- Verificar
+            // ------- Verificar
 
-            // int userId;
-            // var userIdClaim = await _jwtHelper.GetIdFromJWT();
+            int userId;
+            var userIdClaim = await _jwtHelper.GetIdFromJWT();
 
-            // if (userIdClaim == null || !int.TryParse(userIdClaim, out userId))
-            // {
-            //     return NotFound("Unable to retrieve user ID from token");
-            // }
-            // // ----------------
+            if (userIdClaim == null || !int.TryParse(userIdClaim, out userId))
+            {
+                return NotFound("Unable to retrieve user ID from token");
+            }
+            // ----------------
 
-            var user = await _context.Users.FindAsync(1);
+            var user = await _context.Users.FindAsync(userId);
             if (user == null)
             {
                 return NotFound("User not found");
@@ -70,7 +70,7 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
                 Weight = _petDTO.Weight.ToUpper(),
                 BirthDate = _petDTO.BirthDate,
                 Sex = _petDTO.Sex.ToLower(),
-                user_id = 1,
+                user_id = userId,
                 ImagePath = imagePath,
                 User = user
             };
