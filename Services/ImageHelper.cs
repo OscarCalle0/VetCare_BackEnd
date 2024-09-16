@@ -72,7 +72,7 @@ namespace VetCare_BackEnd.Services
                 {
                     await file.CopyToAsync(stream);
                 }
-                return $"/images/{fileName}";
+                return $"../wwwroot/images/{fileName}";
 
             }
             catch
