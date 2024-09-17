@@ -75,6 +75,7 @@ namespace VetCare_BackEnd.Controllers
                 {
                     id = user.Id, // User ID
                     username = user.Name, // Username
+                    lastname = user.LastName,
                     email = user.Email, // User email
                     roleId = user.RoleId // User role ID
                 }

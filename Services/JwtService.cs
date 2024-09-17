@@ -29,7 +29,9 @@ namespace VetCare_BackEnd.Services
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, roleId.ToString())     // ID del rol del usuario
+                    new Claim(ClaimTypes.Role, roleId.ToString()), // ID del rol del usuario  
+                    new Claim("Name", user.Name), 
+                    new Claim("LastName", user.LastName)    
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(_expirationMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
