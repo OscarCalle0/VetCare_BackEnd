@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace VetCare_BackEnd.Services
@@ -38,7 +39,7 @@ namespace VetCare_BackEnd.Services
 
             // Decode the token and extract the id
             var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
-            var userId = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == "nameid")?.Value;
+            var userId = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userId))
             {
