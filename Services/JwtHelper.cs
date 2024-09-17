@@ -44,6 +44,7 @@ namespace VetCare_BackEnd.Services
             if (string.IsNullOrEmpty(userId))
             {
                 Console.WriteLine("The claim 'nameid' is empty");
+                return " ";
             }
             
             return userId;
