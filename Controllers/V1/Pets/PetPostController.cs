@@ -36,9 +36,9 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
             // ------- Verificar
 
             int userId;
-            var userIdClaim = await _jwtHelper.GetIdFromJWT();
+            var userIdClaim = _jwtHelper.GetIdFromJWT();
 
-            if (userIdClaim == null || !int.TryParse(userIdClaim, out userId))
+            if (string.IsNullOrWhiteSpace(userIdClaim) || !int.TryParse(userIdClaim, out userId))
             {
                 return NotFound("Unable to retrieve user ID from token");
             }
