@@ -133,8 +133,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Configure application to listen on a specified port or default to 6969
-var port = Environment.GetEnvironmentVariable("PORT") ?? "6969";
-app.Urls.Add($"http://0.0.0.0:{port}");
-
 app.Run();
