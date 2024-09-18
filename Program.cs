@@ -7,10 +7,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using VetCare_BackEnd.Models;
 using VetCare_BackEnd.Services;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Cargar variables de entorno
 Env.Load();
 var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
 var dbPort = Environment.GetEnvironmentVariable("DB_PORT");
@@ -21,20 +23,17 @@ var connectionDB = $"server={dbHost};port={dbPort};database={dbDatabaseName};uid
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionDB, ServerVersion.Parse("8.0.20-mysql")));
 
-// Configure secret key and expiration time for JWT
+// Configurar clave secreta y tiempo de expiración para JWT
 var jwtKey = Environment.GetEnvironmentVariable("JWTKEY") ?? throw new InvalidOperationException("JWT Key is not configured.");
-var jwtExpireMinutes = int.Parse(Environment.GetEnvironmentVariable("JWT_EXPIRE_MINUTES") ?? "30"); // Use JWT_EXPIRE_MINUTES for expiration minutes
+var jwtExpireMinutes = int.Parse(Environment.GetEnvironmentVariable("JWT_EXPIRE_MINUTES") ?? "30");
 
-// Add JwtService to the dependency container
+// Agregar JwtService al contenedor de dependencias
 builder.Services.AddSingleton(new JwtService(jwtKey, jwtExpireMinutes));
 
-// Debug message to verify that the JWT key has been loaded correctly
+// Debug: verificar que la clave JWT se haya cargado correctamente
 Console.WriteLine($"JWT Key Loaded: {jwtKey}");
 
-// Ensure that the key has at least 16 bytes (128 bits)
-var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
-
-// Configure JWT services
+// Configurar servicios de autenticación JWT
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -48,71 +47,88 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = false,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtKey)),
-        ClockSkew = TimeSpan.Zero // No time tolerance
+        ClockSkew = TimeSpan.Zero // Sin tolerancia de tiempo
     };
 });
 
-// Add custom services to the collection
+// Agregar servicios personalizados
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddSingleton(new JwtService(jwtKey, jwtExpireMinutes));
+builder.Services.AddScoped<JwtHelper>();
+builder.Services.AddScoped<ImageHelper>();
 
+// Configurar CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
             builder.WithOrigins("http://192.168.89.167:6969", "http://localhost:3000")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
         });
 });
 
-// builder.Services.AddControllers()
-//     .AddJsonOptions(options =>
-//     {
-//         options.JsonSerializerOptions.Converters.Add(new DateOnlyConverter());
-//     });
-
-// For connect to the session storage
+// Agregar el contexto HTTP y controladores
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<JwtHelper>();
-builder.Services.AddScoped<ImageHelper>();
-
-
 builder.Services.AddControllers();
 
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Configurar Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "VetCare API", Version = "v1" });
+
+    // Definir el esquema de seguridad
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Ingrese 'Bearer' [espacio] y luego su token JWT",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    // Requerir autenticación para todos los endpoints
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+
+    // Incluir el archivo XML para la documentación
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath); // Aquí es donde se incluye
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-    app.UseSwagger();
-    app.UseSwaggerUI();
-
+// Configurar el pipeline de solicitudes HTTP
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "VetCare API V1");
+});
 
-// // For checking if requests are arriving
-// app.Use(async (context, next) =>
-// {
-//     Console.WriteLine($"Request received for {context.Request.Path}");
-//     await next();
-// });
-
-// app.UseHttpsRedirection();
-
+// Middleware
 app.UseCors("AllowSpecificOrigin");
-
 app.UseStaticFiles();
-
-app.UseAuthentication(); // Authentication middleware
-
+app.UseAuthentication(); // Middleware de autenticación
 app.UseAuthorization();
 
 app.MapControllers();
