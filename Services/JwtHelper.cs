@@ -20,46 +20,46 @@ namespace VetCare_BackEnd.Services
 
             if (httpContext == null)
             {
-                Console.WriteLine("El contexto HTTP es nulo.");
+                Console.WriteLine("The HTTP context is null.");
                 return string.Empty;
             }
 
-            // Acceder al token JWT del encabezado Authorization
+            // Access the JWT token from the Authorization header
             var token = httpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (string.IsNullOrWhiteSpace(token))
             {
-                Console.WriteLine("El token es nulo o vacío.");
+                Console.WriteLine("The token is null or empty.");
                 return string.Empty;
             }
 
-            Console.WriteLine($"Token recibido: {token}"); // Log para verificar el token
+            Console.WriteLine($"Received token: {token}"); // Log to verify the token
 
             try
             {
-                // Decodificar el token y extraer el ID del reclamo "Id"
+                // Decode the token and extract the ID from the "Id" claim
                 var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
                 var userId = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
 
-                // Loggear todos los reclamos para depuración
+                // Log all claims for debugging
                 foreach (var claim in jwtSecurityToken.Claims)
                 {
-                    Console.WriteLine($"Tipo de reclamo: {claim.Type}, Valor del reclamo: {claim.Value}");
+                    Console.WriteLine($"Claim type: {claim.Type}, Claim value: {claim.Value}");
                 }
 
                 if (string.IsNullOrEmpty(userId))
                 {
-                    Console.WriteLine("El reclamo 'Id' está vacío.");
+                    Console.WriteLine("The 'Id' claim is empty.");
                     return string.Empty;
                 }
 
-                Console.WriteLine($"ID de usuario extraído del token: {userId}"); // Log del ID extraído
+                Console.WriteLine($"User ID extracted from token: {userId}"); // Log the extracted ID
 
                 return userId;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al leer el token: {ex.Message}");
+                Console.WriteLine($"Error reading the token: {ex.Message}");
                 return string.Empty;
             }
         }

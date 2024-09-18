@@ -12,7 +12,7 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Cargar variables de entorno
+// Load environment variables
 Env.Load();
 var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
 var dbPort = Environment.GetEnvironmentVariable("DB_PORT");
@@ -23,17 +23,17 @@ var connectionDB = $"server={dbHost};port={dbPort};database={dbDatabaseName};uid
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionDB, ServerVersion.Parse("8.0.20-mysql")));
 
-// Configurar clave secreta y tiempo de expiración para JWT
+// Configure secret key and expiration time for JWT
 var jwtKey = Environment.GetEnvironmentVariable("JWTKEY") ?? throw new InvalidOperationException("JWT Key is not configured.");
 var jwtExpireMinutes = int.Parse(Environment.GetEnvironmentVariable("JWT_EXPIRE_MINUTES") ?? "30");
 
-// Agregar JwtService al contenedor de dependencias
+// Add JwtService to the dependency container
 builder.Services.AddSingleton(new JwtService(jwtKey, jwtExpireMinutes));
 
-// Debug: verificar que la clave JWT se haya cargado correctamente
+// Debug: verify that the JWT key has been loaded correctly
 Console.WriteLine($"JWT Key Loaded: {jwtKey}");
 
-// Configurar servicios de autenticación JWT
+// Configure JWT authentication services
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -47,17 +47,17 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = false,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtKey)),
-        ClockSkew = TimeSpan.Zero // Sin tolerancia de tiempo
+        ClockSkew = TimeSpan.Zero // No time tolerance
     };
 });
 
-// Agregar servicios personalizados
+// Add custom services
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<JwtHelper>();
 builder.Services.AddScoped<ImageHelper>();
 
-// Configurar CORS
+// Configure CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -70,26 +70,26 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Agregar el contexto HTTP y controladores
+// Add HTTP context and controllers
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
 
-// Configurar Swagger
+// Configure Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "VetCare API", Version = "v1" });
 
-    // Definir el esquema de seguridad
+    // Define security scheme
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
-        Description = "Ingrese 'Bearer' [espacio] y luego su token JWT",
+        Description = "Enter 'Bearer' [space] and then your JWT token",
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
 
-    // Requerir autenticación para todos los endpoints
+    // Require authentication for all endpoints
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -105,15 +105,15 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 
-    // Incluir el archivo XML para la documentación
+    // Include the XML file for documentation
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath); // Aquí es donde se incluye
+    c.IncludeXmlComments(xmlPath); // This is where it gets included
 });
 
 var app = builder.Build();
 
-// Configurar el pipeline de solicitudes HTTP
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -128,7 +128,7 @@ app.UseSwaggerUI(c =>
 // Middleware
 app.UseCors("AllowSpecificOrigin");
 app.UseStaticFiles();
-app.UseAuthentication(); // Middleware de autenticación
+app.UseAuthentication(); // Authentication middleware
 app.UseAuthorization();
 
 app.MapControllers();
