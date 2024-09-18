@@ -25,7 +25,7 @@ namespace VetCare_BackEnd.Services
             <html>
             <body>
                 <div style='font-family: Arial, sans-serif; text-align: center; padding: 20px;'>
-                    <img src='https://1drv.ms/i/s!AjnbxFRkOaPRhedV9yK8CHno0pe2Ww?e=CnM8DC' alt='VetCare' style='width: 150px;'/>
+                    <img src='https://i.imgur.com/IQB5fRn.png' alt='VetCare' style='width: 400px;'/>
                     <h2>Hello!</h2>
                     <p>We have received a request to reset your password at <strong>VetCare</strong>.</p>
                     <p>To proceed with resetting your password, please click the following link:</p>

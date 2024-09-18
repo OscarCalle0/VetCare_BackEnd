@@ -27,9 +27,9 @@ namespace VetCare_BackEnd.Services
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, roleId.ToString()), // ID del rol del usuario  
+                    new Claim("Id", user.Id.ToString()),
+                    new Claim("Email", user.Email),
+                    new Claim("Rol", roleId.ToString()), // ID del rol del usuario  
                     new Claim("Name", user.Name), 
                     new Claim("LastName", user.LastName)    
                 }),
