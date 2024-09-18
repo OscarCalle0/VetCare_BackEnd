@@ -23,7 +23,11 @@ namespace VetCare_BackEnd.Controllers
             _emailService = emailService;
         }
 
-        // POST: api/Auth/Register
+        /// <summary>
+        /// Registers a new user.
+        /// </summary>
+        /// <param name="registerDto">User registration data.</param>
+        /// <returns>Result of the operation, including success or error message.</returns>
         [HttpPost("Register")]
         public IActionResult Register([FromBody] RegisterDto registerDto)
         {
@@ -52,7 +56,11 @@ namespace VetCare_BackEnd.Controllers
             return Ok("User successfully registered.");
         }
 
-        // POST: api/Auth/Login
+        /// <summary>
+        /// Logs in and generates a JWT token.
+        /// </summary>
+        /// <param name="loginDto">User login data.</param>
+        /// <returns>JWT token and user data on success, or error message on failure.</returns>
         [HttpPost("Login")]
         public IActionResult Login([FromBody] LoginDto loginDto)
         {
@@ -83,7 +91,11 @@ namespace VetCare_BackEnd.Controllers
             return Ok(response);
         }
 
-        // POST: api/Auth/RequestPasswordReset
+        /// <summary>
+        /// Requests a password reset by sending a link via email.
+        /// </summary>
+        /// <param name="request">Password reset request containing the user's email.</param>
+        /// <returns>Success or error message based on the operation result.</returns>
         [HttpPost("RequestPasswordReset")]
         public IActionResult RequestPasswordReset([FromBody] ResetPasswordRequest request)
         {
@@ -114,7 +126,11 @@ namespace VetCare_BackEnd.Controllers
             return Ok(response);
         }
 
-        // POST: api/Auth/ResetPassword
+        /// <summary>
+        /// Resets the user's password using a reset token.
+        /// </summary>
+        /// <param name="resetPasswordDto">Data required to reset the password, including the token and new password.</param>
+        /// <returns>Success or error message based on the operation result.</returns>
         [HttpPost("ResetPassword")]
         public IActionResult ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {
