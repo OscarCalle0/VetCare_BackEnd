@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace VetCare_BackEnd.Services
 {
@@ -15,24 +14,54 @@ namespace VetCare_BackEnd.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<string> GetIdFromJWT()
+        public string GetIdFromJWT()
         {
-
             var httpContext = _httpContextAccessor.HttpContext;
-            if (httpContext != null)
+
+            if (httpContext == null)
             {
-                // Acceder al JWT token desde el encabezado de autorización
-                var token = httpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-                if (token != null)
-                {
-                    // Decodificar el token y extraer la información que necesitas
-                    var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
-                    var userId = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == "NameIdentifier")?.Value;
-                    return userId;
-                }
+                Console.WriteLine("El contexto HTTP es nulo.");
+                return string.Empty;
             }
 
-            return null;
+            // Acceder al token JWT del encabezado Authorization
+            var token = httpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                Console.WriteLine("El token es nulo o vacío.");
+                return string.Empty;
+            }
+
+            Console.WriteLine($"Token recibido: {token}"); // Log para verificar el token
+
+            try
+            {
+                // Decodificar el token y extraer el ID del reclamo "Id"
+                var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
+                var userId = jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+
+                // Loggear todos los reclamos para depuración
+                foreach (var claim in jwtSecurityToken.Claims)
+                {
+                    Console.WriteLine($"Tipo de reclamo: {claim.Type}, Valor del reclamo: {claim.Value}");
+                }
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    Console.WriteLine("El reclamo 'Id' está vacío.");
+                    return string.Empty;
+                }
+
+                Console.WriteLine($"ID de usuario extraído del token: {userId}"); // Log del ID extraído
+
+                return userId;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al leer el token: {ex.Message}");
+                return string.Empty;
+            }
         }
     }
 }
