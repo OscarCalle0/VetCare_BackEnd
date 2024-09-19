@@ -78,7 +78,7 @@ namespace VetCare_BackEnd.Controllers
             var response = new
             {
                 token = token, // Generated token
-                expiration = DateTime.UtcNow.AddHours(1).ToString("yyyy-MM-ddTHH:mm:ssZ"), // Expiration in 1 hour
+                expiration = DateTime.UtcNow.AddMinutes(30).ToString("yyyy-MM-ddTHH:mm:ssZ"), // Expiration in 1 hour
                 data = new
                 {
                     id = user.Id, // User ID
