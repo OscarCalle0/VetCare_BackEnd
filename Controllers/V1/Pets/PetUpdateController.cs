@@ -9,7 +9,7 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
 {
     public partial class PetController
     {
-        [HttpPatch("UpdatePet/{id}")]
+        [HttpPut("UpdatePet/{id}")]
         public async Task<IActionResult> UpdatePet([FromForm]PetDTO _petDTO, int id)
         {
             if (_petDTO == null)
