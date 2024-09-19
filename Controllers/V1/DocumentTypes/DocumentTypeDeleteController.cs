@@ -9,6 +9,11 @@ using VetCare_BackEnd.Models;
 namespace VetCare_BackEnd.Controllers.V1.DocumentTypes;
 public partial class DocumentTypeController
 {
+        /// <summary>
+        ///  Delete a Document Type
+        /// </summary>
+        /// <param name="id">The Id of the document you want to delete.</param>
+        /// <returns>sucess when the document has been deleted.</returns>
     [HttpDelete("{id}")]
 
     public async Task<IActionResult> Delete ([FromRoute] int id)
