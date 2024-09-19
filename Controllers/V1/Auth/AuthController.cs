@@ -78,7 +78,7 @@ namespace VetCare_BackEnd.Controllers
             var response = new
             {
                 token = token, // Generated token
-                expiration = DateTime.UtcNow.AddHours(1).ToString("yyyy-MM-ddTHH:mm:ssZ"), // Expiration in 1 hour
+                expiration = DateTime.UtcNow.AddMinutes(30).ToString("yyyy-MM-ddTHH:mm:ssZ"), // Expiration in 1 hour
                 data = new
                 {
                     id = user.Id, // User ID
@@ -147,6 +147,9 @@ namespace VetCare_BackEnd.Controllers
             // If the token is valid, update the password
             user.Password = _authService.HashPassword(resetPasswordDto.NewPassword);
             _context.SaveChanges();
+
+            // Send notification email about password change
+            _emailService.SendPasswordChangedEmail(user.Email);
 
             return Ok("Password has been successfully reset.");
         }

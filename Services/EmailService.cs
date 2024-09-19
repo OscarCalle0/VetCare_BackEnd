@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Mail;
-using DotNetEnv; // Add this using directive
+using DotNetEnv; // Ensure this is present
 
 namespace VetCare_BackEnd.Services
 {
@@ -25,7 +25,7 @@ namespace VetCare_BackEnd.Services
             <html>
             <body>
                 <div style='font-family: Arial, sans-serif; text-align: center; padding: 20px;'>
-                    <img src='https://i.imgur.com/IQB5fRn.png' alt='VetCare' style='width: 400px;'/>
+                    <img src='https://i.imgur.com/BnB3gyq.jpg' alt='VetCare' style='width: 400px;'/>
                     <h2>Hello!</h2>
                     <p>We have received a request to reset your password at <strong>VetCare</strong>.</p>
                     <p>To proceed with resetting your password, please click the following link:</p>
@@ -39,7 +39,7 @@ namespace VetCare_BackEnd.Services
             </body>
             </html>";
 
-            // Configure SMTP client
+            // Configure the SMTP client
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
@@ -61,7 +61,64 @@ namespace VetCare_BackEnd.Services
             try
             {
                 smtpClient.Send(mailMessage);
-                Console.WriteLine("Email sent successfully.");
+                Console.WriteLine("Password reset email sent successfully.");
+            }
+            catch (SmtpException ex)
+            {
+                Console.WriteLine($"SMTP Error: {ex.Message}, StatusCode: {ex.StatusCode}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"General Error: {ex.Message}");
+            }
+        }
+
+        public void SendPasswordChangedEmail(string toEmail)
+        {
+            // Read environment variables
+            var fromEmail = Env.GetString("EMAIL");
+            var fromPassword = Env.GetString("PASSWORD");
+            var subject = "Your Password Has Been Changed - VetCare";
+
+            // Email message content in HTML
+            var body = $@"
+            <html>
+            <body>
+                <div style='font-family: Arial, sans-serif; text-align: center; padding: 20px;'>
+                    <img src='https://i.imgur.com/BnB3gyq.jpg' alt='VetCare' style='width: 400px;'/>
+                    <h2>Hello!</h2>
+                    <p>This is a notification that your password has been successfully changed.</p>
+                    <p>If you did not request this change, please contact our support team immediately.</p>
+                    <br />
+                    <p>Thank you for trusting us!</p>
+                    <p>VetCare Team</p>
+                </div>
+            </body>
+            </html>";
+
+            // Configure the SMTP client
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(fromEmail, fromPassword),
+                EnableSsl = true
+            };
+
+            // Create the email message
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(fromEmail),
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            };
+
+            mailMessage.To.Add(toEmail);
+
+            try
+            {
+                smtpClient.Send(mailMessage);
+                Console.WriteLine("Password change notification email sent successfully.");
             }
             catch (SmtpException ex)
             {

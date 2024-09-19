@@ -1,90 +1,66 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace VetCare_BackEnd.Services
 {
     public class ImageHelper
     {
-        private readonly IWebHostEnvironment _environment;
-
-        public ImageHelper(IWebHostEnvironment environment)
+        public ImageHelper()
         {
-            _environment = environment;
         }
 
-        public async Task<bool> DeleteImage(string imagePath)
+        public async Task<bool> DeleteImage(string deleteHash)
         {
-            if (string.IsNullOrEmpty(imagePath))
+            if (string.IsNullOrEmpty(deleteHash))
             {
                 Console.WriteLine("The Path is empty");
                 return false;
             }
 
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"https://api.imgur.com/3/image/{deleteHash}");
+            request.Headers.Add("Authorization", $"Client-ID 3b079e41f999b5b");
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
 
-            if (!imagePath.StartsWith("/images/"))
-            {
-                Console.WriteLine("The path does not start with /images/");
-                return false;
-            }
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
 
-            string fullPath = Path.Combine(_environment.WebRootPath, imagePath.TrimStart('/'));
-
-            try
-            {
-                if (!File.Exists(fullPath))
-                {
-                    Console.WriteLine("The file does not exist");
-                    return false;
-                }
-
-                await Task.Run(() => File.Delete(fullPath));
-                return true;
-            }
-            catch (IOException ex)
-            {
-                Console.WriteLine($"Error deleting the image: {ex.Message}");
-                return false;
-            }
+            return true;
         }
 
-        public async Task<string> CreateImageAsync(IFormFile file)
+        
+        public async Task<JObject> PostImage(IFormFile file)
         {
-            // Ensure the directory exists
-            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://api.imgur.com/3/image");
 
-            if (!Directory.Exists(uploadPath))
+            request.Headers.Add("Authorization", "Client-ID 3b079e41f999b5b");
+
+            var content = new MultipartFormDataContent
             {
-                Directory.CreateDirectory(uploadPath);
+                { new StreamContent(file.OpenReadStream()), "image", file.FileName },
+                { new StringContent("image"), "type" },
+                { new StringContent("Image of pet"), "title" },
+                { new StringContent("This is pet image upload in Imgur"), "description" }
+            };
+
+            request.Content = content;
+
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseContent);
+
+            var jsonResponse = JObject.Parse(responseContent);
+
+            if (jsonResponse == null)
+            {
+                Console.WriteLine("No content in the json response ");
+                return null;
             }
 
-            // Generate a unique filename
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(uploadPath, fileName);
+            return jsonResponse;
 
-            // Save the file
-            try
-            {
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
-                return $"../wwwroot/images/{fileName}";
-
-            }
-            catch
-            {
-                return string.Empty;
-            }
-
-        }
-
-        public string CreateImage(IFormFile file)
-        {
-            return CreateImageAsync(file).GetAwaiter().GetResult();
         }
     }
 }
