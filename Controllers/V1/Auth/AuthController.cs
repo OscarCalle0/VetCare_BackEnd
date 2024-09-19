@@ -148,6 +148,9 @@ namespace VetCare_BackEnd.Controllers
             user.Password = _authService.HashPassword(resetPasswordDto.NewPassword);
             _context.SaveChanges();
 
+            // Send notification email about password change
+            _emailService.SendPasswordChangedEmail(user.Email);
+
             return Ok("Password has been successfully reset.");
         }
     }
