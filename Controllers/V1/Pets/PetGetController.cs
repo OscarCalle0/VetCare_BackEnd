@@ -1,16 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using VetCare_BackEnd.Data;
+
 
 namespace VetCare_BackEnd.Controllers.V1.Pets
 {
     
     public partial class PetController
     {
+        /// <summary>
+        /// Show the pets paginated
+        /// </summary>
+        ///<param name="page">The param for the number of page</param>
+        ///<param name="quantity">The param for the number pets in the page</param>
+        ///<returns>The quantity of pets that you request by page</returns>
         [HttpGet("allPaginatedPets")]
         public async Task<IActionResult> AllPets([FromQuery] int page, [FromQuery] int quantity)
         {
@@ -36,6 +38,10 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
             return Ok(result);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("allPets")]
         public async Task<IActionResult> AllPets()
         {

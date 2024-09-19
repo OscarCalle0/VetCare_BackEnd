@@ -1,15 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Mysqlx;
-using VetCare_BackEnd.Models;
+
 
 namespace VetCare_BackEnd.Controllers.V1.Pets
 {
     public partial class PetController
     {
+        /// <summary>
+        /// To Delete the pet
+        /// </summary>
+        /// <param name="id">Insert the id of the pet to delete</param>
+        /// <returns>Status codes</returns>
         [HttpDelete("DeletePet/{id}")]
         public async Task<IActionResult> DeletePet(int id)
         {
@@ -20,11 +20,11 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
                 return NotFound("Data Not Found");
             }
 
-            var filePath = result.ImagePath;
+            var deleteHash = result.DeleteHash;
 
-            if (filePath != null)
+            if (deleteHash != null)
             {
-                bool ImageDeleted = await _imageHelper.DeleteImage(filePath);
+                bool ImageDeleted = await _imageHelper.DeleteImage(deleteHash);
 
                 if (!ImageDeleted)
                 {
