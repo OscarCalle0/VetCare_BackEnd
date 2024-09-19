@@ -8,7 +8,7 @@ namespace VetCare_BackEnd.Models.Dtos;
 public class AppointmentDTO
 {
      [JsonIgnore]
-    public required DateTime StartDate { get; set; }
+    public DateTime StartDate { get; set; }
     public required DateTime EndDate { get; set; }
     public required bool Available { get; set; }
     public string? Description { get; set; }
