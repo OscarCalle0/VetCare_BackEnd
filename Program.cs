@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using VetCare_BackEnd.Models;
 using VetCare_BackEnd.Services;
+using VetCare_BackEnd.Services.Interfaces;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -56,6 +57,11 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<JwtHelper>();
 builder.Services.AddScoped<ImageHelper>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPetService, PetService>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+
 
 // Configure CORS
 builder.Services.AddCors(options =>
