@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace VetCare_BackEnd.Models
@@ -11,6 +12,7 @@ namespace VetCare_BackEnd.Models
     public class AppointmentType
     {
         [Key]
+        [JsonIgnore]
         public int Id { get; set; }
 
         [Required]
