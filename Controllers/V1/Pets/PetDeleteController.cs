@@ -10,6 +10,7 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
         /// </summary>
         /// <param name="id">Insert the id of the pet to delete</param>
         /// <returns>Status codes</returns>
+        /// <response code="404">Can`t find a pet linked to that id</response>
         [HttpDelete("DeletePet/{id}")]
         public async Task<IActionResult> DeletePet(int id)
         {

@@ -9,6 +9,11 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
 {
     public partial class PetController : ControllerBase
     {
+        /// <summary>
+        /// Create a pet
+        /// </summary>
+        /// <param name="_petDTO">The params that the pet need to be created</param>
+        /// <returns></returns>
         [HttpPost("CreatePet")]
         public async Task<IActionResult> CreatePet([FromForm] PetDTO _petDTO)
         {
