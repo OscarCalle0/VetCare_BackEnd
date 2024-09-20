@@ -44,11 +44,22 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
                 return BadRequest("The Image field doesn't have data");
             }
 
-            var imagePath = _imageHelper.CreateImage(_petDTO.Image);
-            if (string.IsNullOrEmpty(imagePath))
+            var jsonResponse = await _imageHelper.PostImage(_petDTO.Image);
+
+            var imageUrl = jsonResponse["data"]["link"].ToString();
+
+            if (imageUrl == string.Empty)
             {
-                return BadRequest("The image cannot be saved");
+                return BadRequest("The image url do not have content");
             }
+
+            var deleteHash = jsonResponse["data"]["deletehash"].ToString();
+
+            if (deleteHash == string.Empty)
+            {
+                return BadRequest("The image url do not have content");
+            }
+
 
             var pet = new Pet
             {
@@ -58,7 +69,8 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
                 BirthDate = _petDTO.BirthDate,
                 Sex = _petDTO.Sex.ToLower(),
                 user_id = userId,
-                ImagePath = imagePath,
+                ImagePath = imageUrl,
+                DeleteHash = deleteHash,
                 User = user
             };
 

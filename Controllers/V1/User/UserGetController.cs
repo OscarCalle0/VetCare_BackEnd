@@ -14,6 +14,13 @@ namespace VetCare_BackEnd.Controllers.V1
     public partial class UserController
     {
 
+       /// <summary>
+        /// Retrieves a paginated list of users.
+        /// </summary>
+        /// <param name="pageNumber">The page number to retrieve.</param>
+        /// <param name="pageSize">The number of users per page.</param>
+        /// <returns>A paginated list of users.</returns>
+
 
         [HttpGet]
         public async Task<IActionResult> GetUsers(
@@ -38,8 +45,12 @@ namespace VetCare_BackEnd.Controllers.V1
              .ToListAsync();
             return Ok(Users);
         }
-
-        //GET /Users/ id/{id}
+        
+         /// <summary>
+        /// FindS a user by id
+        /// </summary>
+        /// <param name="id">The id of user you want to find.</param>
+        /// <returns>The information of the user that has been search, </returns>
 
         [HttpGet("{id}")]
         public async Task<ActionResult> GetUserById(int id)
@@ -48,6 +59,14 @@ namespace VetCare_BackEnd.Controllers.V1
             return Ok(Usersearch);
         }
 
+
+        
+         /// <summary>
+        /// Finds a user by name
+        /// </summary>
+        /// <param name="name">The name of user you want to find.</param>
+        /// <returns>The informarion of the user that has been search, </returns>
+        /// 
         [HttpGet("findByName/{name}")]
 
         public async Task<ActionResult<IEnumerable<User>>> GetUserByname([FromRoute]string name)
@@ -59,8 +78,15 @@ namespace VetCare_BackEnd.Controllers.V1
             }
             return Ok(Usersearch);
         }
-
+    
+         /// <summary>
+        /// Finds a user by initial
+        /// </summary>
+        /// <param name="initial">The initial letter of user you want to find.</param>
+        /// <returns>The information of the user that has been search, </returns>
+        
         [HttpGet("FindByInitial/{initial}")]
+        
 
         public async Task<ActionResult> GetUserByLetter(string initial)
         {
@@ -71,6 +97,12 @@ namespace VetCare_BackEnd.Controllers.V1
             }
             return Ok(Usersearch);
         }
+
+       /// <summary>
+        /// Finds a user by keywords.
+        /// </summary>
+        /// <param name="keyword">The keyword used to search for the user.</param>
+        /// <returns>The information of the found user.</returns>
 
 
         [HttpGet("getbykeyword")]

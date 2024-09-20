@@ -38,6 +38,8 @@ namespace VetCare_BackEnd.Models
         public required string Sex { get; set; }
         public string? ImagePath { get; set; }
 
+        public string? DeleteHash {get; set;}
+
         // Foreign keys
         public int user_id { get; set; }
 

@@ -12,7 +12,7 @@ namespace VetCare_BackEnd.Seeders
         public static void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Role>().HasData(
-                new Role { Id = 1, Name = "Administrator"},
+                new Role { Id = 1, Name = "Admin"},
                 new Role { Id = 2, Name = "User"}
             );
         }

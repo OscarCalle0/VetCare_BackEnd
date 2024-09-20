@@ -11,6 +11,12 @@ namespace VetCare_BackEnd.Controllers.V1;
 
     public partial class UserController
     {
+        /// <summary>
+        ///  Delete a User
+        /// </summary>
+        /// <param name="id">The Id of the user you want to delete.</param>
+        /// <returns>sucess when the user has been deleted.</returns>
+
         [HttpDelete]
 
         public async Task<ActionResult> Delete (int id)

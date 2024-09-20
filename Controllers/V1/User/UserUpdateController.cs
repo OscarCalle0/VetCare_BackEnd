@@ -10,6 +10,13 @@ namespace VetCare_BackEnd.Controllers.V1;
 public partial class UserController
 {
 
+        /// <summary>
+        /// Update User
+        /// </summary>
+        /// <param name="id">The id of the user that is going to be update.</param>
+        /// <returns>A success message for the creation of a new user </returns>
+        
+
     [HttpPut("{id}")]
 
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] User newUser)

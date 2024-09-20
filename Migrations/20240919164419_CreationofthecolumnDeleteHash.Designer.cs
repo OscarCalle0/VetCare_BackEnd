@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetCare_BackEnd.Data;
 
@@ -11,9 +12,11 @@ using VetCare_BackEnd.Data;
 namespace VetCare_BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240919164419_CreationofthecolumnDeleteHash")]
+    partial class CreationofthecolumnDeleteHash
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,23 +73,6 @@ namespace VetCare_BackEnd.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("appointmentTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "consult"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "exam"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "appointment"
-                        });
                 });
 
             modelBuilder.Entity("VetCare_BackEnd.Models.DocumentType", b =>
@@ -105,43 +91,6 @@ namespace VetCare_BackEnd.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("documentTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Cédula de Ciudadanía"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Tarjeta de Identidad"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Pasaporte"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Número de Identificación Tributaria"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Cédula de Extranjería"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Registro Civil"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Permiso Especial de Permanencia"
-                        });
                 });
 
             modelBuilder.Entity("VetCare_BackEnd.Models.Pet", b =>
@@ -160,9 +109,6 @@ namespace VetCare_BackEnd.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
-
-                    b.Property<string>("DeleteHash")
-                        .HasColumnType("longtext");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("longtext");
@@ -206,18 +152,6 @@ namespace VetCare_BackEnd.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Admin"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "User"
-                        });
                 });
 
             modelBuilder.Entity("VetCare_BackEnd.Models.User", b =>

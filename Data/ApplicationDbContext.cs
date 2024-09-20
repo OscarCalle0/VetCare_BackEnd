@@ -21,19 +21,19 @@ public class ApplicationDbContext:DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        // base.OnModelCreating(modelBuilder);
         DocumentTypeSeeder.Seed(modelBuilder);
         RoleSeeder.Seed(modelBuilder);
-        PetSeeder.Seed(modelBuilder);
-        AppointmentSeeder.Seed(modelBuilder);
+        // PetSeeder.Seed(modelBuilder);
+        // AppointmentSeeder.Seed(modelBuilder);
         AppointmentTypeSeeder.Seed(modelBuilder);
         
-        var dataUsers = UserSeeder.GenerateUser(5);
+        // var dataUsers = UserSeeder.GenerateUser(5);
 
-        modelBuilder.Entity<User>(user =>
-        {
-            user.HasData(dataUsers);
-        });
+        // modelBuilder.Entity<User>(user =>
+        // {
+        //     user.HasData(dataUsers);
+        // });
     }
 
 }
