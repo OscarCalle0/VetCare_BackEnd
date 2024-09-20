@@ -38,8 +38,5 @@ public partial class UserController
             _userService.Users.Add(user);
             await _userService.SaveChangesAsync();
             return Ok("user created successfully");
-
         }
-
-
     }
