@@ -12,7 +12,6 @@ namespace VetCare_BackEnd.Models
     public class User
     {
         [Key]
-        [JsonIgnore]
         public int Id { get; set; }
 
         [Required]
@@ -60,7 +59,5 @@ namespace VetCare_BackEnd.Models
         [ForeignKey("DocumentType_id")]
         [NotMapped]
         public  DocumentType? DocumentType { get; set; }
-
-
     }
 }

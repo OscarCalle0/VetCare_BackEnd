@@ -12,7 +12,6 @@ namespace VetCare_BackEnd.Models
     public class AppointmentType
     {
         [Key]
-        [JsonIgnore]
         public int Id { get; set; }
 
         [Required]
