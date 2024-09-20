@@ -59,7 +59,5 @@ namespace VetCare_BackEnd.Models
         [ForeignKey("DocumentType_id")]
         [NotMapped]
         public  DocumentType? DocumentType { get; set; }
-
-
     }
 }

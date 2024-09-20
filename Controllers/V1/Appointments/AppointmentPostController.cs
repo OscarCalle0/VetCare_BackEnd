@@ -3,11 +3,26 @@ using VetCare_BackEnd.Models;
 using VetCare_BackEnd.Models.Dtos;
 using System;
 using System.Threading.Tasks;
+using VetCare_BackEnd.Services.Interfaces;
+using VetCare_BackEnd.Services;
 
 namespace VetCare_BackEnd.Controllers.V1.Appointments
 {
     public partial class AppointmentController
     {
+        /// <summary>
+        /// Creates a new appointment.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows authenticated users to create a new appointment. 
+        /// The user and pet must exist in the system, and the appointment 
+        /// must be scheduled within working hours (08:00 AM - 08:00 PM).
+        /// </remarks>
+        /// <param name="request">The appointment request DTO containing user, pet, and appointment details.</param>
+        /// <returns>Returns the created appointment details.</returns>
+        /// <response code="200">Returns the created appointment details.</response>
+        /// <response code="400">If the user or pet is invalid, or if the appointment time is out of range.</response>
+        /// <response code="500">If there is a server error.</response>
         [HttpPost("create")]
         public async Task<IActionResult> CreateAppointment([FromBody] AppointmentRequestDto request)
         {
@@ -20,20 +35,26 @@ namespace VetCare_BackEnd.Controllers.V1.Appointments
                 return BadRequest("Invalid user or pet.");
             }
 
-            // Validate that the time is within the allowed range (08:00 AM - 08:00 PM)
+            // Validate that the appointment time is within working hours
             var startTime = new TimeSpan(8, 0, 0); // 08:00 AM
             var endTime = new TimeSpan(20, 0, 0); // 08:00 PM
 
-            // Validate if the EndDate time is within the allowed working hours
             if (request.EndDate.TimeOfDay < startTime || request.EndDate.TimeOfDay > endTime)
             {
                 return BadRequest("Appointments can only be scheduled between 08:00 AM and 08:00 PM.");
             }
 
-            // Validate if the EndDate is in the future
             if (request.EndDate <= DateTime.Now)
             {
                 return BadRequest("EndDate must be a future date.");
+            }
+
+            // Obtener el tipo de cita
+            AppointmentType appointmentType = await _appointmentTypeService.GetAppointmentTypeByIdAsync(request.AppointmentTypeId);
+
+              if (appointmentType == null)
+            {
+                return BadRequest("Invalid appointment type.");
             }
 
             // Create the new appointment
@@ -41,16 +62,19 @@ namespace VetCare_BackEnd.Controllers.V1.Appointments
             {
                 PetId = request.PetId,
                 AppointmentTypeId = request.AppointmentTypeId,
-                StartDate = DateTime.Now, // System's automatic date
+                StartDate = DateTime.Now,
                 EndDate = request.EndDate,
-                Available = DateTime.Now <= request.EndDate, // Logic to determine availability
-                Description = request.Description
+                Available = DateTime.Now <= request.EndDate,
+                Description = request.Description,
+                AppointmentType = appointmentType 
             };
 
-            // Save the appointment in the database
             await _appointmentService.CreateAppointmentAsync(appointment);
 
-            // Create the response DTO
+            // Send notification email
+            await _emailService.SendAppointmentNotificationEmail(user.Email, pet.Name, appointment);
+
+                        // Create response DTO
             var response = new AppointmentResponseDto
             {
                 StartDate = appointment.StartDate,
@@ -58,7 +82,9 @@ namespace VetCare_BackEnd.Controllers.V1.Appointments
                 Available = appointment.Available,
                 Description = appointment.Description,
                 PetId = appointment.PetId,
-                AppointmentTypeId = appointment.AppointmentTypeId
+                AppointmentTypeId = appointment.AppointmentTypeId,
+                PetName = pet.Name,
+                AppointmentType = appointmentType?.Name
             };
 
             return Ok(response);

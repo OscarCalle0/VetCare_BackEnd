@@ -60,8 +60,7 @@ builder.Services.AddScoped<ImageHelper>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPetService, PetService>();
-builder.Services.AddScoped<IAppointmentService, AppointmentService>();
-
+builder.Services.AddScoped<IAppointmentTypeService, AppointmentTypeService>();
 
 // Configure CORS
 builder.Services.AddCors(options =>
@@ -114,7 +113,7 @@ builder.Services.AddSwaggerGen(c =>
     // Include the XML file for documentation
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath); // This is where it gets included
+    c.IncludeXmlComments(xmlPath);
 });
 
 var app = builder.Build();

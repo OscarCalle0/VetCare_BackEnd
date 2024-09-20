@@ -13,5 +13,7 @@ namespace VetCare_BackEnd.Models.Dtos
         public string Description { get; set; }
         public int PetId { get; set; }
         public int AppointmentTypeId { get; set; }
+        public string PetName { get; set; }
+        public string AppointmentType { get; set; }
     }
 }
