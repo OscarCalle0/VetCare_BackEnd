@@ -12,13 +12,12 @@ namespace VetCare_BackEnd.Models
     public class Pet
     {
         [Key]
-        [JsonIgnore]
         public int Id { get; set; }
 
 
         [Required]
         [MaxLength(100, ErrorMessage = "The input is too long")]
-        public required string Name { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [MaxLength(100, ErrorMessage = "The input is too long")]

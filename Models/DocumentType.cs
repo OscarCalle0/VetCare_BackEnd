@@ -12,7 +12,6 @@ namespace VetCare_BackEnd.Models
     public class DocumentType
     {
         [Key]
-        [JsonIgnore]
         public int Id { get; set; }
 
         [MaxLength(100, ErrorMessage = "The input is too long")]

@@ -33,8 +33,5 @@ namespace VetCare_BackEnd.Controllers.V1;
             _userService.Users.Add(user);
             await _userService.SaveChangesAsync();
             return Ok("user created successfully");
-
         }
-
-
     }

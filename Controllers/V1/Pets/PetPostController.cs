@@ -65,7 +65,6 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
             _context.Pets.Add(pet);
             await _context.SaveChangesAsync();
 
-            // Return 201 Created with the pet ID and a success message
             return CreatedAtAction(nameof(CreatePet), new { id = pet.Id }, new 
             {
                 message = "Pet created successfully",
