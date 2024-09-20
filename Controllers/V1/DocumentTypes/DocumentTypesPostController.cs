@@ -12,8 +12,13 @@ namespace VetCare_BackEnd.Controllers.V1.DocumentTypes;
 public partial class DocumentTypeController
 {
 
+        /// <summary>
+        /// Add a new Document Type
+        /// </summary>
+        /// <returns>sucess when the user has been created.</returns>
 
     [HttpPost()]
+
     public async Task<IActionResult> Create([FromBody] DocumentType newDocumentType)
     {
         if (!ModelState.IsValid)

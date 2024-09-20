@@ -12,8 +12,12 @@ namespace VetCare_BackEnd.Controllers.V1.DocumentTypes
     public partial class DocumentTypeController
     {
 
-
+        /// <summary>
+        ///  Show all the Document types
+        /// </summary>
+        /// <returns>shows all document types.</returns>
         [HttpGet]
+        
         public async Task<IActionResult> GetAll()
         {
             var result = await _context.DocumentTypes.ToListAsync();
