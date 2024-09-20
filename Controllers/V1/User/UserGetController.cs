@@ -14,7 +14,7 @@ namespace VetCare_BackEnd.Controllers.V1
     public partial class UserController
     {
 
-       /// <summary>
+        /// <summary>
         /// Retrieves a paginated list of users.
         /// </summary>
         /// <param name="pageNumber">The page number to retrieve.</param>
@@ -45,8 +45,8 @@ namespace VetCare_BackEnd.Controllers.V1
              .ToListAsync();
             return Ok(Users);
         }
-        
-         /// <summary>
+
+        /// <summary>
         /// FindS a user by id
         /// </summary>
         /// <param name="id">The id of user you want to find.</param>
@@ -56,12 +56,18 @@ namespace VetCare_BackEnd.Controllers.V1
         public async Task<ActionResult> GetUserById(int id)
         {
             var Usersearch = await _userService.Users.FindAsync(id);
+
+            // Verifica si el usuario existe
+            if (Usersearch == null)
+            {
+                return NotFound($"User with ID {id} not found.");
+            }
             return Ok(Usersearch);
         }
 
 
-        
-         /// <summary>
+
+        /// <summary>
         /// Finds a user by name
         /// </summary>
         /// <param name="name">The name of user you want to find.</param>
@@ -69,7 +75,7 @@ namespace VetCare_BackEnd.Controllers.V1
         /// 
         [HttpGet("findByName/{name}")]
 
-        public async Task<ActionResult<IEnumerable<User>>> GetUserByname([FromRoute]string name)
+        public async Task<ActionResult<IEnumerable<User>>> GetUserByname([FromRoute] string name)
         {
             var Usersearch = await _userService.Users.FirstOrDefaultAsync(p => p.Name.Contains(name));
             if (Usersearch == null)
@@ -78,15 +84,15 @@ namespace VetCare_BackEnd.Controllers.V1
             }
             return Ok(Usersearch);
         }
-    
-         /// <summary>
+
+        /// <summary>
         /// Finds a user by initial
         /// </summary>
         /// <param name="initial">The initial letter of user you want to find.</param>
         /// <returns>The information of the user that has been search, </returns>
-        
+
         [HttpGet("FindByInitial/{initial}")]
-        
+
 
         public async Task<ActionResult> GetUserByLetter(string initial)
         {
@@ -98,7 +104,7 @@ namespace VetCare_BackEnd.Controllers.V1
             return Ok(Usersearch);
         }
 
-       /// <summary>
+        /// <summary>
         /// Finds a user by keywords.
         /// </summary>
         /// <param name="keyword">The keyword used to search for the user.</param>
@@ -106,25 +112,25 @@ namespace VetCare_BackEnd.Controllers.V1
 
 
         [HttpGet("getbykeyword")]
-    public async Task<IActionResult> GetByKeyword([FromQuery] string keyword)
-    {
-        if(string.IsNullOrEmpty(keyword))
+        public async Task<IActionResult> GetByKeyword([FromQuery] string keyword)
         {
-            return BadRequest("Keyword is required");
-        }
+            if (string.IsNullOrEmpty(keyword))
+            {
+                return BadRequest("Keyword is required");
+            }
 
-        var users = await _userService.Users.ToListAsync();
+            var users = await _userService.Users.ToListAsync();
 
-        var result = users.Where(r => 
-            r.Name.Contains(keyword, System.StringComparison.OrdinalIgnoreCase)).
-        ToList();
-        
-        if(result.Count() == 0)
-        {
-            return NotFound("No roles found with that keyword");
+            var result = users.Where(r =>
+                r.Name.Contains(keyword, System.StringComparison.OrdinalIgnoreCase)).
+            ToList();
+
+            if (result.Count() == 0)
+            {
+                return NotFound("No roles found with that keyword");
+            }
+            return Ok(result);
         }
-        return Ok(result);
-    }
 
     }
 

@@ -1,10 +1,11 @@
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VetCare_BackEnd.Models;
 
 namespace VetCare_BackEnd.Controllers.V1;
 
-public partial class UserController 
+public partial class UserController
 {
     /// <summary>
     /// Creates a new user.
@@ -13,13 +14,23 @@ public partial class UserController
     /// <returns>A success message confirming the creation of the user.</returns>
 
 
-        [HttpPost("create")]
-        public async Task<IActionResult> Create(User newUser)
+    [HttpPost("create")]
+    public async Task<IActionResult> Create(User newUser)
+    {
+        if (newUser == null)
         {
-            _userService.Users.Add(newUser);
-            await _userService.SaveChangesAsync();
-            return Ok("usuario creado");
+            return BadRequest("Invalid user data.");
         }
 
-
+        var existingUser = await _userService.Users.FirstOrDefaultAsync(u => u.Email == newUser.Email);
+        if (existingUser != null)
+        {
+            return Conflict("A user with the same email already exists.");
+        }
+        _userService.Users.Add(newUser);
+        await _userService.SaveChangesAsync();
+        return Ok("usuario creado");
     }
+
+
+}
