@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VetCare_BackEnd.Models;
+using VetCare_BackEnd.Models.Dtos;
 
 namespace VetCare_BackEnd.Controllers.V1;
 
@@ -12,7 +13,6 @@ public partial class UserController
     /// </summary>
     /// <param name="newUser">The information required to create the new user.</param>
     /// <returns>A success message confirming the creation of the user.</returns>
-
 
     [HttpPost("create")]
     public async Task<IActionResult> Create(User newUser)
@@ -31,6 +31,4 @@ public partial class UserController
         await _userService.SaveChangesAsync();
         return Ok("usuario creado");
     }
-
-
 }

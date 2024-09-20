@@ -3,27 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bogus;
+using Microsoft.EntityFrameworkCore;
 using VetCare_BackEnd.Models;
 
 namespace VetCare_BackEnd.Seeders
 {
     public class UserSeeder
     {
-        public static List<User> GenerateUser(int UserQuantities)
+        public static void GenerateUser(ModelBuilder modelBuilder)
         {
-            var faker = new Faker<User>()
-                .RuleFor(u => u.Id, f => f.IndexFaker + 1)
-                .RuleFor(u => u.Name, f => f.Name.FirstName())
-                .RuleFor(u => u.LastName, f => f.Name.LastName())
-                .RuleFor(u => u.BirthDate, f => f.Date.PastDateOnly())
-                .RuleFor(u => u.DocumentNumber, f => f.Random.AlphaNumeric(10))
-                .RuleFor(u => u.Password, f => f.Internet.Password())
-                .RuleFor(u => u.PhoneNumber, f => f.Phone.PhoneNumber("### ### ## ##"))
-                .RuleFor(u => u.Email, f => f.Internet.Email())
-                .RuleFor(u => u.DocumentTypeId, f => f.Random.Number(1, 5))
-                .RuleFor(u => u.RoleId, f => f.Random.Number(1, 5));
-            
-            return faker.Generate(UserQuantities);
+            modelBuilder.Entity<User>().HasData(
+                new User { Id = 1, Name = "oscar", LastName = "calle", BirthDate = new DateOnly(1997, 03, 18), Email = "oscarcalle0@gmail.com", PhoneNumber = "3195588904", DocumentNumber = "1128463678", DocumentTypeId = 1, Password = "1234", RoleId = 1},
+                new User { Id = 2, Name = "mariana", LastName = "perez", BirthDate = new DateOnly(2003, 10, 22), Email = "mperezserna8@gmail.com", PhoneNumber = "3008387411", DocumentNumber = "1000537869", DocumentTypeId = 1, Password = "1234", RoleId = 1},
+                new User { Id = 3, Name = "jhon", LastName = "asprilla", BirthDate = new DateOnly(2004, 01, 04), Email = "asprillajhon73@gmail.com", PhoneNumber = "3053307402", DocumentNumber = "1013456232", DocumentTypeId = 1, Password = "1234", RoleId = 1}
+                
+            );
         }
     }
 }

@@ -23,7 +23,7 @@ namespace VetCare_BackEnd.Controllers.V1
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers(
+        public async Task<IActionResult> GetUsers(
             [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10
 
         )

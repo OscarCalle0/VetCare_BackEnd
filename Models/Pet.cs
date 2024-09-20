@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace VetCare_BackEnd.Models
@@ -16,7 +17,7 @@ namespace VetCare_BackEnd.Models
 
         [Required]
         [MaxLength(100, ErrorMessage = "The input is too long")]
-        public required string Name { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [MaxLength(100, ErrorMessage = "The input is too long")]
@@ -36,6 +37,8 @@ namespace VetCare_BackEnd.Models
         [MaxLength(50, ErrorMessage = "The input is too long")]
         public required string Sex { get; set; }
         public string? ImagePath { get; set; }
+
+        public string? DeleteHash {get; set;}
 
         // Foreign keys
         public int user_id { get; set; }

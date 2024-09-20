@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace VetCare_BackEnd.Models
@@ -14,17 +15,17 @@ namespace VetCare_BackEnd.Models
         public int Id { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateOnly StartDate { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime StartDate { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateOnly EndDate { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime EndDate { get; set; }
 
         [Required]
         public bool Available { get; set; }
 
-        [MaxLength(260, ErrorMessage = "The input is too long")]
+        //Delete The text Lenght restriction
         public string? Description { get; set; }
 
         // Foreign Keys

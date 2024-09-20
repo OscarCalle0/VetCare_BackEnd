@@ -28,6 +28,8 @@ namespace VetCare_BackEnd.Controllers
         /// </summary>
         /// <param name="registerDto">User registration data.</param>
         /// <returns>Result of the operation, including success or error message.</returns>
+        /// <response code="200">User successfully registered.</response>
+        /// <response code="400">User already exists.</response>
         [HttpPost("Register")]
         public IActionResult Register([FromBody] RegisterDto registerDto)
         {
@@ -36,7 +38,6 @@ namespace VetCare_BackEnd.Controllers
                 return BadRequest("User already exists.");
             }
 
-            // Encrypt the password
             var hashedPassword = _authService.HashPassword(registerDto.Password);
 
             var user = new User
@@ -48,7 +49,7 @@ namespace VetCare_BackEnd.Controllers
                 PhoneNumber = registerDto.PhoneNumber,
                 DocumentNumber = registerDto.DocumentNumber,
                 DocumentTypeId = registerDto.DocumentTypeId,
-                Password = hashedPassword, // Encrypted password
+                Password = hashedPassword,
                 RoleId = registerDto.RoleId
             };
 
@@ -61,6 +62,8 @@ namespace VetCare_BackEnd.Controllers
         /// </summary>
         /// <param name="loginDto">User login data.</param>
         /// <returns>JWT token and user data on success, or error message on failure.</returns>
+        /// <response code="200">Successfully logged in, returns the token and user data.</response>
+        /// <response code="401">Incorrect email or password.</response>
         [HttpPost("Login")]
         public IActionResult Login([FromBody] LoginDto loginDto)
         {
@@ -68,24 +71,20 @@ namespace VetCare_BackEnd.Controllers
             if (user == null || !_authService.VerifyPassword(loginDto.Password, user.Password))
                 return Unauthorized("Incorrect email or password.");
 
-            // Retrieve the user's role ID
             var roleId = user.RoleId; 
-
-            // Generate JWT token
             var token = _jwtService.GenerateJwtToken(user, roleId);
 
-            // Response structure
             var response = new
             {
-                token = token, // Generated token
-                expiration = DateTime.UtcNow.AddHours(1).ToString("yyyy-MM-ddTHH:mm:ssZ"), // Expiration in 1 hour
+                token = token,
+                expiration = DateTime.UtcNow.AddMinutes(30).ToString("yyyy-MM-ddTHH:mm:ssZ"),
                 data = new
                 {
-                    id = user.Id, // User ID
-                    username = user.Name, // Username
+                    id = user.Id,
+                    username = user.Name,
                     lastname = user.LastName,
-                    email = user.Email, // User email
-                    roleId = user.RoleId // User role ID
+                    email = user.Email,
+                    roleId = user.RoleId
                 }
             };
             return Ok(response);
@@ -96,31 +95,31 @@ namespace VetCare_BackEnd.Controllers
         /// </summary>
         /// <param name="request">Password reset request containing the user's email.</param>
         /// <returns>Success or error message based on the operation result.</returns>
+        /// <response code="200">A password reset link has been sent to your email.</response>
+        /// <response code="404">User not found.</response>
         [HttpPost("RequestPasswordReset")]
         public IActionResult RequestPasswordReset([FromBody] ResetPasswordRequest request)
         {
             var user = _context.Users.SingleOrDefault(u => u.Email == request.Email);
             if (user == null) return NotFound("User not found.");
 
-            var token = _authService.GeneratePasswordResetToken(user); // Generate password reset token
-            var expiration = DateTime.UtcNow.AddMinutes(5); // Expiration in 5 minutes
-
+            var token = _authService.GeneratePasswordResetToken(user);
+            var expiration = DateTime.UtcNow.AddMinutes(5);
             var resetLink = Url.Action("ResetPassword", "Auth", new { token = token }, Request.Scheme);
 
             _emailService.SendPasswordResetEmail(user.Email, resetLink);
 
-            // Response format
             var response = new
             {
-                token = token, // Generated token
-                expiration = expiration, // Token expiration date
+                token = token,
+                expiration = expiration,
                 data = new
                 {
-                    id = user.Id, // User ID
-                    username = user.Name, // User name
-                    email = user.Email // User email
+                    id = user.Id,
+                    username = user.Name,
+                    email = user.Email
                 },
-                message = "A password reset link has been sent to your email." 
+                message = "A password reset link has been sent to your email."
             };
 
             return Ok(response);
@@ -131,22 +130,24 @@ namespace VetCare_BackEnd.Controllers
         /// </summary>
         /// <param name="resetPasswordDto">Data required to reset the password, including the token and new password.</param>
         /// <returns>Success or error message based on the operation result.</returns>
+        /// <response code="200">Password has been successfully reset.</response>
+        /// <response code="401">Invalid or expired token.</response>
+        /// <response code="404">User not found.</response>
         [HttpPost("ResetPassword")]
         public IActionResult ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {
-            // Token sent by the user from the frontend
             var storedToken = resetPasswordDto.Token;
 
-            // Verify the token
             if (!_authService.VerifyResetToken(storedToken))
                 return Unauthorized("Invalid or expired token.");
 
             var user = _context.Users.SingleOrDefault(u => u.Email == resetPasswordDto.Email);
             if (user == null) return NotFound("User not found.");
 
-            // If the token is valid, update the password
             user.Password = _authService.HashPassword(resetPasswordDto.NewPassword);
             _context.SaveChanges();
+
+            _emailService.SendPasswordChangedEmail(user.Email);
 
             return Ok("Password has been successfully reset.");
         }

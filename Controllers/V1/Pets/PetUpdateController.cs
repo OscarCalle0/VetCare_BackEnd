@@ -9,7 +9,7 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
 {
     public partial class PetController
     {
-        [HttpPatch("UpdatePet/{id}")]
+        [HttpPut("UpdatePet/{id}")]
         public async Task<IActionResult> UpdatePet([FromForm]PetDTO _petDTO, int id)
         {
             if (_petDTO == null)
@@ -49,15 +49,23 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
             {
                 return BadRequest("No data in the storage");
             }
+            if (petToConvert.DeleteHash == null)
+            {
+                return BadRequest("No data in the 'deleteHash' field");
+            }
             if (_petDTO.Image == null)
             {
                 return BadRequest("No data in the image field");
             }
 
-            await _imageHelper.DeleteImage(petToConvert.ImagePath);
+            var deleteHash = petToConvert.DeleteHash;
 
-            
-            petToConvert.ImagePath = _imageHelper.CreateImage(_petDTO.Image);
+            await _imageHelper.DeleteImage(deleteHash);
+
+            var jsonResponse = await _imageHelper.PostImage(_petDTO.Image);
+
+            petToConvert.ImagePath = jsonResponse["data"]["link"].ToString();
+            petToConvert.DeleteHash = jsonResponse["data"]["deletehash"].ToString();
 
             await _context.SaveChangesAsync();
             return Ok("Pet Updated successfully");

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace VetCare_BackEnd.Models
@@ -58,7 +59,5 @@ namespace VetCare_BackEnd.Models
         [ForeignKey("DocumentType_id")]
         [NotMapped]
         public  DocumentType? DocumentType { get; set; }
-
-
     }
 }
