@@ -85,4 +85,27 @@ public partial class AppointmentController
         }
         return Ok(result);
     }
+
+    /// <summary>
+    /// Retrieves appointments by the pet's ID.
+    /// </summary>
+    /// <param name="petId">The ID of the pet to retrieve appointments for.</param>
+    /// <returns>A list of appointments for the specified pet.</returns>
+    /// <response code="200">Returns a list of appointments for the specified pet.</response>
+    /// <response code="404">If no appointments for the pet are found.</response>
+    [HttpGet("getbypetid/{petId}")]
+    public async Task<IActionResult> GetByPetId([FromRoute] int petId)
+    {
+        var appointments = await _context.Appointments
+            .Where(a => a.PetId == petId)
+            .ToListAsync();
+
+        if (appointments == null || !appointments.Any())
+        {
+            return NotFound("No appointments found for the specified pet.");
+        }
+
+        return Ok(appointments);
+    }
+
 }
