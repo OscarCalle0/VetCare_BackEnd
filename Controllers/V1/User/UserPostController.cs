@@ -1,11 +1,12 @@
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VetCare_BackEnd.Models;
 using VetCare_BackEnd.Models.Dtos;
 
 namespace VetCare_BackEnd.Controllers.V1;
 
-public partial class UserController 
+public partial class UserController
 {
     /// <summary>
     /// Creates a new user.
@@ -13,30 +14,21 @@ public partial class UserController
     /// <param name="newUser">The information required to create the new user.</param>
     /// <returns>A success message confirming the creation of the user.</returns>
 
-
-        [HttpPost("create")]
-        public async Task<IActionResult> Create(UserDTO newUser)
+    [HttpPost("create")]
+    public async Task<IActionResult> Create(User newUser)
+    {
+        if (newUser == null)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = new User
-            {
-                Name = newUser.Name,
-                LastName = newUser.LastName,
-                BirthDate = newUser.BirthDate,
-                DocumentNumber = newUser.DocumentNumber,
-                Password = newUser.Password,
-                PhoneNumber = newUser.PhoneNumber,
-                Email = newUser.Email,
-                DocumentTypeId = newUser.DocumentTypeId,
-                RoleId = newUser.RoleId,
-            };
-
-            _userService.Users.Add(user);
-            await _userService.SaveChangesAsync();
-            return Ok("user created successfully");
+            return BadRequest("Invalid user data.");
         }
+
+        var existingUser = await _userService.Users.FirstOrDefaultAsync(u => u.Email == newUser.Email);
+        if (existingUser != null)
+        {
+            return Conflict("A user with the same email already exists.");
+        }
+        _userService.Users.Add(newUser);
+        await _userService.SaveChangesAsync();
+        return Ok("usuario creado");
     }
+}
