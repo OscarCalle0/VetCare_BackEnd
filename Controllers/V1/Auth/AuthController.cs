@@ -105,7 +105,7 @@ namespace VetCare_BackEnd.Controllers
 
             var token = _authService.GeneratePasswordResetToken(user);
             var expiration = DateTime.UtcNow.AddMinutes(5);
-            var resetLink = Url.Action("ResetPassword", "Auth", new { token = token }, Request.Scheme);
+            var resetLink = $"https://vetcare-web.vercel.app/new-password?token={token}";
 
             _emailService.SendPasswordResetEmail(user.Email, resetLink);
 
