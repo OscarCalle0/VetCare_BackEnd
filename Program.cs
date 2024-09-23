@@ -68,7 +68,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            builder.WithOrigins("http://192.168.89.167:6969", "http://localhost:3000", "https://vetcare-web.vercel.app/")
+            builder.WithOrigins("https://vetcare-web.vercel.app, http://192.168.89.167:6969", "http://localhost:3000")
                    .AllowAnyHeader()
                    .AllowAnyMethod()
                    .AllowCredentials();
