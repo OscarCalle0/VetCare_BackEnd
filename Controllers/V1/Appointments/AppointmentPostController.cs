@@ -44,7 +44,7 @@ namespace VetCare_BackEnd.Controllers.V1.Appointments
                 return BadRequest("Appointments can only be scheduled between 08:00 AM and 08:00 PM.");
             }
 
-            if (request.EndDate <= DateTime.Now)
+            if (request.EndDate <= DateTime.UtcNow.AddHours(-5.5)) // Ajuste de 5:30 horas
             {
                 return BadRequest("EndDate must be a future date.");
             }
@@ -52,7 +52,7 @@ namespace VetCare_BackEnd.Controllers.V1.Appointments
             // Obtener el tipo de cita
             AppointmentType appointmentType = await _appointmentTypeService.GetAppointmentTypeByIdAsync(request.AppointmentTypeId);
 
-              if (appointmentType == null)
+            if (appointmentType == null)
             {
                 return BadRequest("Invalid appointment type.");
             }
@@ -62,11 +62,11 @@ namespace VetCare_BackEnd.Controllers.V1.Appointments
             {
                 PetId = request.PetId,
                 AppointmentTypeId = request.AppointmentTypeId,
-                StartDate = DateTime.Now,
-                EndDate = request.EndDate,
-                Available = DateTime.Now <= request.EndDate,
+                StartDate = DateTime.UtcNow.AddHours(-5.5), // Ajuste de 5:30 horas
+                EndDate = request.EndDate.ToUniversalTime(), // Guardar en UTC
+                Available = DateTime.UtcNow.AddHours(-5.5) <= request.EndDate.ToUniversalTime(),
                 Description = request.Description,
-                AppointmentType = appointmentType 
+                AppointmentType = appointmentType
             };
 
             await _appointmentService.CreateAppointmentAsync(appointment);
@@ -74,7 +74,7 @@ namespace VetCare_BackEnd.Controllers.V1.Appointments
             // Send notification email
             await _emailService.SendAppointmentNotificationEmail(user.Email, pet.Name, appointment);
 
-                        // Create response DTO
+            // Create response DTO
             var response = new AppointmentResponseDto
             {
                 StartDate = appointment.StartDate,

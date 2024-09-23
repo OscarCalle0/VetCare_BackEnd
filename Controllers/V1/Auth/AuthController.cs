@@ -44,7 +44,7 @@ namespace VetCare_BackEnd.Controllers
             {
                 Name = registerDto.Name,
                 LastName = registerDto.LastName,
-                BirthDate = registerDto.BirthDate,
+                BirthDate = registerDto.BirthDate, // Asegúrate de que esta fecha esté en UTC o ajustada
                 Email = registerDto.Email,
                 PhoneNumber = registerDto.PhoneNumber,
                 DocumentNumber = registerDto.DocumentNumber,
@@ -77,7 +77,7 @@ namespace VetCare_BackEnd.Controllers
             var response = new
             {
                 token = token,
-                expiration = DateTime.UtcNow.AddMinutes(30).ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                expiration = DateTime.UtcNow.AddMinutes(30).AddHours(-5).AddMinutes(-30).ToString("yyyy-MM-ddTHH:mm:ssZ"), // Ajuste de la hora
                 data = new
                 {
                     id = user.Id,
@@ -104,7 +104,7 @@ namespace VetCare_BackEnd.Controllers
             if (user == null) return NotFound("User not found.");
 
             var token = _authService.GeneratePasswordResetToken(user);
-            var expiration = DateTime.UtcNow.AddMinutes(5);
+            var expiration = DateTime.UtcNow.AddMinutes(5).AddHours(-5).AddMinutes(-30);
             var resetLink = $"https://vetcare-web.vercel.app/new-password?token={token}";
 
             _emailService.SendPasswordResetEmail(user.Email, resetLink);
