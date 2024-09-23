@@ -9,6 +9,12 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
 {
     public partial class PetController
     {
+        /// <summary>
+        /// Update a pet
+        /// </summary>
+        /// <param name="_petDTO">New data to change in the pet</param>
+        /// <param name="id">The id of the pet that is going to be update</param>
+        /// <returns>An 200 http alert</returns>
         [HttpPut("UpdatePet/{id}")]
         public async Task<IActionResult> UpdatePet([FromForm]PetDTO _petDTO, int id)
         {
@@ -64,8 +70,9 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
 
             var jsonResponse = await _imageHelper.PostImage(_petDTO.Image);
 
-            petToConvert.ImagePath = jsonResponse["data"]["link"].ToString();
-            petToConvert.DeleteHash = jsonResponse["data"]["deletehash"].ToString();
+            petToConvert.ImagePath = jsonResponse["data"]?["link"]?.ToString();
+
+            petToConvert.DeleteHash = jsonResponse["data"]?["deletehash"]?.ToString();
 
             await _context.SaveChangesAsync();
             return Ok("Pet Updated successfully");
