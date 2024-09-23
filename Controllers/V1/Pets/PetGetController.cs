@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace VetCare_BackEnd.Controllers.V1.Pets
 {
-    
     public partial class PetController
     {
         /// <summary>

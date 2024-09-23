@@ -7,7 +7,7 @@ using VetCare_BackEnd.Services;
 
 namespace VetCare_BackEnd.Controllers.V1.Pets
 {
-    public partial class PetController : ControllerBase
+    public partial class PetController
     {
         /// <summary>
         /// Create a pet
@@ -51,14 +51,14 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
 
             var jsonResponse = await _imageHelper.PostImage(_petDTO.Image);
 
-            var imageUrl = jsonResponse["data"]["link"].ToString();
+            var imageUrl = jsonResponse["data"]?["link"]?.ToString() ?? string.Empty;
 
             if (imageUrl == string.Empty)
             {
                 return BadRequest("The image url do not have content");
             }
 
-            var deleteHash = jsonResponse["data"]["deletehash"].ToString();
+            var deleteHash = jsonResponse["data"]?["deletehash"]?.ToString() ?? string.Empty;
 
             if (deleteHash == string.Empty)
             {
