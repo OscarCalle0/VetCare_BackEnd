@@ -71,7 +71,8 @@ builder.Services.AddCors(options =>
             builder.WithOrigins("https://vetcare-web.vercel.app, http://192.168.89.167:6969", "http://localhost:3000")
                    .AllowAnyHeader()
                    .AllowAnyMethod()
-                   .AllowCredentials();
+                   .AllowCredentials()
+                   .WithHeaders("content-type", "authorization");
         });
 });
 
