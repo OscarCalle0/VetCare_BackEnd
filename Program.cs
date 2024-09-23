@@ -133,8 +133,7 @@ app.UseSwaggerUI(c =>
 });
 
 // Middleware
-//app.UseCors("AllowSpecificOrigin");
-app.UseCors("AllowVetCareWeb");
+app.UseCors("AllowSpecificOrigin");
 app.UseStaticFiles();
 app.UseAuthentication(); // Authentication middleware
 app.UseAuthorization();
