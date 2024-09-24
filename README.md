@@ -45,6 +45,7 @@ The API is available at **https://vetcare-backend.azurewebsites.net**. You can i
 
 ### Example request to create an appointment
 POST /api/v1/appointments/create
+<code>
 {
     "UserId": 1,
     "PetId": 2,
@@ -52,7 +53,7 @@ POST /api/v1/appointments/create
     "EndDate": "2024-09-30T15:00:00Z",
     "Description": "General consultation"
 }
-
+</code>
 
 ### Example response for scheduling a new appointment
 {
