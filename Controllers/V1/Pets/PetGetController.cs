@@ -28,7 +28,7 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
             }
 
             var result = await _context.Pets
-            .Skip((page - 1)*quantity)
+            .Skip((page - 1) * quantity)
             .Take(quantity)
             .ToListAsync();
 
@@ -89,7 +89,7 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
         /// <returns>A json of one pet</returns>
         /// <response code="404">No user has been found with that id or That user does not have pets</response>
         [HttpGet("petByUserId/{id}")]
-        public async Task<IActionResult> PetByUserId([FromRoute]int id)
+        public async Task<IActionResult> PetByUserId([FromRoute] int id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -107,5 +107,35 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
 
             return Ok(result);
         }
+
+        /// <summary>
+        /// Search pets by keyword
+        /// </summary>
+        /// <param name="keyword">The keyword used to search for pets (e.g., part of the pet's name)</param>
+        /// <returns>A list of pets whose names match the provided keyword</returns>
+        /// <response code="400">Keyword is required</response>
+        /// <response code="404">No pets found with the provided keyword</response>
+        [HttpGet("searchByKeyword")]
+        public async Task<IActionResult> SearchPetsByKeyword([FromQuery] string keyword)
+        {
+            if (string.IsNullOrEmpty(keyword))
+            {
+                return BadRequest("Keyword is required");
+            }
+
+            var pets = await _context.Pets.ToListAsync();
+
+            var result = pets.Where(p =>
+                p.Name.Contains(keyword, System.StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+            if (result.Count == 0)
+            {
+                return NotFound("No pets found with that keyword");
+            }
+
+            return Ok(result);
+        }
+
     }
 }
