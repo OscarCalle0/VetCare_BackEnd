@@ -114,7 +114,7 @@ namespace VetCare_BackEnd.Controllers.V1.Pets
         /// <param name="keyword">The keyword used to search for pets (e.g., part of the pet's name)</param>
         /// <returns>A list of pets whose names match the provided keyword</returns>
         /// <response code="400">Keyword is required</response>
-        /// <response code="404">No pets found with the provided keyword</response>
+        /// <response code="404">No pets found with the provided keyword.................</response>
         [HttpGet("searchByKeyword")]
         public async Task<IActionResult> SearchPetsByKeyword([FromQuery] string keyword)
         {
