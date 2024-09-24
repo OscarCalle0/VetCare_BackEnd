@@ -19,7 +19,7 @@ git clone https://github.com/Jhon-Develop/VetCare_BackEnd.git
 cd VetCare_BackEnd
 
 ### 2. Configure the .env file at the root of the project with the following variables:
-**DB_HOST=** host
+**DB_HOST=** host<br>
 **DB_PORT=** port
 **DB_DATABASE=** database
 **DB_USERNAME=** user
