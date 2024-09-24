@@ -20,13 +20,13 @@ cd VetCare_BackEnd
 
 ### 2. Configure the .env file at the root of the project with the following variables:
 **DB_HOST=** host<br>
-**DB_PORT=** port
-**DB_DATABASE=** database
-**DB_USERNAME=** user
-**DB_PASSWORD=** Password
-**JWTKEY=** KEY
-**EMAIL=** email
-**PASSWORD=** password
+**DB_PORT=** port<br>
+**DB_DATABASE=** database<br>
+**DB_USERNAME=** user<br>
+**DB_PASSWORD=** Password<br>
+**JWTKEY=** KEY<br>
+**EMAIL=** email<br>
+**PASSWORD=** password<br>
 **APIKEY_REMOVEBG=** APIKEY_REMOVEBG
 
 Replace with the respective variable values.
