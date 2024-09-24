@@ -333,6 +333,7 @@ POST /api/v1/appointments/create
 **Method:**  GET  
 **Description:**  Searches for a user by keywords.  
 **Response:** List of matching users.  
+
 ---------------------------------------------------------------------------------------------------------
 
 
