@@ -56,6 +56,7 @@ POST /api/v1/appointments/create
 </code>
 
 ### Example response for scheduling a new appointment
+<code>
 {
   "id": 1,
   "petId": 2,
@@ -64,7 +65,7 @@ POST /api/v1/appointments/create
   "description": "General consultation",
   "available": true
 }
-
+</code>
 
 ## API
 ### Endpoints:
