@@ -27,5 +27,17 @@ namespace VetCare_BackEnd.Services
         {
             return await _context.Users.ToListAsync();
         }
+
+         public async Task<User> FindAsync(int id)
+        {
+            return await _context.Users.FindAsync(id);
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
+
+          public DbSet<User> Users => _context.Users;
     }
 }
