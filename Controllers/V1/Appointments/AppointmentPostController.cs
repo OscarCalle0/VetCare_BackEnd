@@ -15,8 +15,7 @@ namespace VetCare_BackEnd.Controllers.V1.Appointments
         /// </summary>
         /// <remarks>
         /// This endpoint allows authenticated users to create a new appointment. 
-        /// The user and pet must exist in the system, and the appointment 
-        /// must be scheduled within working hours (08:00 AM - 08:00 PM).
+        /// The user and pet must exist in the system.
         /// </remarks>
         /// <param name="request">The appointment request DTO containing user, pet, and appointment details.</param>
         /// <returns>Returns the created appointment details.</returns>
