@@ -25,13 +25,13 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ./myapp  # Cambiado de env.DOTNET_ROOT
+        run: dotnet publish -c Release -o ./myapp  # Publica la aplicación en el directorio ./myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ./myapp  # Cambiado para reflejar el nuevo directorio
+          path: ./myapp  # Ruta donde se encuentra la aplicación publicada
 
   deploy:
     runs-on: windows-latest
@@ -51,9 +51,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B7B538A401514208B70266C6A386C4F0 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CCA93ECD473241A0A6BEA20629B57D14 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_10A2C4C8D36F43C3A80D98FF4F26D9E4 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -61,8 +61,12 @@ jobs:
         with:
           app-name: 'VetCare-Backend'
           slot-name: 'Production'
-          package: ./myapp  # Cambiado para reflejar el nuevo directorio
+          package: ./myapp  # Utiliza el directorio donde se publicó la aplicación
 
       - name: Show Azure Web App Logs
         run: |
-          az webapp log tail --name VetCare-Backend --resource-group YourResourceGroup
+          az webapp log tail --name VetCare-Backend --resource-group YourResourceGroup  # Cambia a tu grupo de recursos real
+
+      - name: Verify deployment
+        run: |
+          curl -I https://VetCare-Backend.azurewebsites.net  # Verifica el estado de la aplicación desplegada
