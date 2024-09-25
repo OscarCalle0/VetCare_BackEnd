@@ -14,17 +14,21 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Set up .NET Core
+      - name: Set up .NET 8
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0'  # Cambiado a .NET 8
+          dotnet-version: '8.0'  # Configura .NET 8
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: Restore dependencies
+        run: dotnet restore  # Restaura las dependencias del proyecto
 
-      - name: dotnet publish
+      - name: Build the project
+        run: dotnet build --configuration Release --no-restore  # Compila el proyecto
+
+      - name: Publish the project
         run: dotnet publish -c Release -o ./myapp  # Publica la aplicación en el directorio ./myapp
 
       - name: Upload artifact for deployment job
@@ -51,15 +55,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}  # Asegúrate de que este secreto esté configurado
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}  # Asegúrate de que este secreto esté configurado
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}  # Asegúrate de que este secreto esté configurado
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'VetCare-Backend'
+          app-name: 'VetCare-Backend'  # Nombre de tu aplicación en Azure
           slot-name: 'Production'
           package: ./myapp  # Utiliza el directorio donde se publicó la aplicación
 
