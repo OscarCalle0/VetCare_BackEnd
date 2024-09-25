@@ -19,19 +19,19 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '3.1'
+          dotnet-version: '8.0'  # Cambiado a .NET 8
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ./myapp  # Cambiado de env.DOTNET_ROOT
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ./myapp  # Cambiado para reflejar el nuevo directorio
 
   deploy:
     runs-on: windows-latest
@@ -40,7 +40,7 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write  # Requerido para solicitar el JWT
 
     steps:
       - name: Download artifact from build job
@@ -61,5 +61,8 @@ jobs:
         with:
           app-name: 'VetCare-Backend'
           slot-name: 'Production'
-          package: .
-          
+          package: ./myapp  # Cambiado para reflejar el nuevo directorio
+
+      - name: Show Azure Web App Logs
+        run: |
+          az webapp log tail --name VetCare-Backend --resource-group YourResourceGroup
